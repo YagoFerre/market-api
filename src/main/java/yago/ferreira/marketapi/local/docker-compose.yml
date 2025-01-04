@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - database:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: market
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+volumes:
+  database:
