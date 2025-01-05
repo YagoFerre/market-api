@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import yago.ferreira.marketapi.entity.Usuario;
 import yago.ferreira.marketapi.entity.dto.AuthenticationDTO;
+import yago.ferreira.marketapi.entity.dto.LoginResponseDTO;
 import yago.ferreira.marketapi.entity.dto.RegisterDTO;
 import yago.ferreira.marketapi.repository.UsuarioRepository;
+import yago.ferreira.marketapi.service.security.TokenService;
 
 @RestController
 @RequestMapping("api/v1/auth")
@@ -21,10 +23,12 @@ public class AuthenticationController {
 
     private final UsuarioRepository usuarioRepository;
     private final AuthenticationManager authenticationManager;
+    private final TokenService tokenService;
 
-    public AuthenticationController(UsuarioRepository usuarioRepository, AuthenticationManager authenticationManager) {
+    public AuthenticationController(UsuarioRepository usuarioRepository, AuthenticationManager authenticationManager, TokenService tokenService) {
         this.usuarioRepository = usuarioRepository;
         this.authenticationManager = authenticationManager;
+        this.tokenService = tokenService;
     }
 
     @PostMapping("/create")
@@ -47,11 +51,12 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid AuthenticationDTO dto) {
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid AuthenticationDTO dto) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getSenha());
         var auth = authenticationManager.authenticate(usernamePassword);
+        var token = tokenService.generateToken((Usuario) auth.getPrincipal());
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
 }
