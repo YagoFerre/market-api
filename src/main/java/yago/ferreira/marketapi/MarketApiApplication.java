@@ -2,8 +2,11 @@ package yago.ferreira.marketapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import yago.ferreira.marketapi.config.storage.FileStorageProperties;
 
 @SpringBootApplication
+@EnableConfigurationProperties(FileStorageProperties.class)
 public class MarketApiApplication {
 
     public static void main(String[] args) {

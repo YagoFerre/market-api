@@ -1,12 +1,12 @@
 package yago.ferreira.marketapi.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import yago.ferreira.marketapi.entity.Produto;
 import yago.ferreira.marketapi.service.produto.ProdutoService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/produto")
@@ -19,8 +19,10 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> salvarProduto(@RequestBody Produto produto) {
-        produtoService.criarProduto(produto);
+    public ResponseEntity<Void> salvarProduto(
+            @RequestBody Produto produto,
+            @RequestPart("imagens") List<MultipartFile> imagens) {
+        produtoService.criarProduto(produto, imagens);
 
         return ResponseEntity.ok().build();
     }
