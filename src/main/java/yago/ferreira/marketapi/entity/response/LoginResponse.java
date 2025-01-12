@@ -1,12 +1,12 @@
-package yago.ferreira.marketapi.entity.dto;
+package yago.ferreira.marketapi.entity.response;
 
-public class LoginResponseDTO {
+public class LoginResponse {
     private String token;
 
-    public LoginResponseDTO() {
+    public LoginResponse() {
     }
 
-    public LoginResponseDTO(String token) {
+    public LoginResponse(String token) {
         this.token = token;
     }
 

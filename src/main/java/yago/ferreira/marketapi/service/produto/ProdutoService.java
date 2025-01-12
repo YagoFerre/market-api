@@ -13,7 +13,6 @@ import yago.ferreira.marketapi.service.file.FileService;
 import yago.ferreira.marketapi.service.usuario.UsuarioService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ProdutoService {
@@ -30,23 +29,29 @@ public class ProdutoService {
     }
 
     @Transactional
-    public Produto criarProduto(Produto produto, List<MultipartFile> imagens) {
+    public void criarProduto(Produto produto, List<MultipartFile> imagens) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Usuario usuarioLogado = usuarioService.findUsuarioLogado(((Usuario) auth.getPrincipal()).getEmail());
 
         produto.setUsuario(usuarioLogado);
-        Produto produtoResponse = produtoRepository.save(produto);
+        Produto produtoSalvo = produtoRepository.save(produto);
 
-        List<File> produtoImagens = imagens.stream().map(imagem -> {
-            String filePath = fileService.storeFile(imagem);
-            File file = new File();
-            file.setNome(imagem.getOriginalFilename());
-            file.setFilePath(filePath);
-            file.setProduto(produto);
-            return file;
+        List<File> produtoImagens = getProdutoImagens(imagens, produtoSalvo);
+        produto.setProdutoImagem(produtoImagens);
+
+        produtoRepository.save(produto);
+    }
+
+    private List<File> getProdutoImagens(List<MultipartFile> files, Produto produto) {
+        File fileImage = new File();
+
+        return files.stream().map(file -> {
+            String filePath = fileService.storeFile(file);
+
+            fileImage.setNome(file.getOriginalFilename());
+            fileImage.setFilePath(filePath);
+            fileImage.setProduto(produto);
+            return fileImage;
         }).toList();
-
-        produtoResponse.setProdutoImagem(produtoImagens);
-        return produtoRepository.save(produtoResponse);
     }
 }

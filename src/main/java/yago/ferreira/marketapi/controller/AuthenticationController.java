@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import yago.ferreira.marketapi.entity.Usuario;
-import yago.ferreira.marketapi.entity.dto.AuthenticationDTO;
-import yago.ferreira.marketapi.entity.dto.LoginResponseDTO;
-import yago.ferreira.marketapi.entity.dto.RegisterDTO;
+import yago.ferreira.marketapi.entity.request.AuthenticationRequest;
+import yago.ferreira.marketapi.entity.response.LoginResponse;
+import yago.ferreira.marketapi.entity.request.RegisterRequest;
 import yago.ferreira.marketapi.repository.UsuarioRepository;
 import yago.ferreira.marketapi.service.security.TokenService;
 
@@ -32,18 +32,18 @@ public class AuthenticationController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity createUser(@RequestBody @Valid RegisterDTO registerDTO) {
-        UserDetails usuarioExistente = usuarioRepository.findByEmail(registerDTO.getEmail());
+    public ResponseEntity createUser(@RequestBody @Valid RegisterRequest registerRequest) {
+        UserDetails usuarioExistente = usuarioRepository.findByEmail(registerRequest.getEmail());
 
         if (usuarioExistente != null) {
             return ResponseEntity.badRequest().build();
         }
 
-        String senhaEncrypted = new BCryptPasswordEncoder().encode(registerDTO.getSenha());
+        String senhaEncrypted = new BCryptPasswordEncoder().encode(registerRequest.getSenha());
 
         Usuario novoUsuario = new Usuario();
-        novoUsuario.setEmail(registerDTO.getEmail());
-        novoUsuario.setNome(registerDTO.getNome());
+        novoUsuario.setEmail(registerRequest.getEmail());
+        novoUsuario.setNome(registerRequest.getNome());
         novoUsuario.setSenha(senhaEncrypted);
 
         usuarioRepository.save(novoUsuario);
@@ -51,12 +51,12 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid AuthenticationDTO dto) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getSenha());
+    public ResponseEntity<LoginResponse> login(@RequestBody @Valid AuthenticationRequest authenticationRequest) {
+        var usernamePassword = new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getSenha());
         var auth = authenticationManager.authenticate(usernamePassword);
         var token = tokenService.generateToken((Usuario) auth.getPrincipal());
 
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+        return ResponseEntity.ok(new LoginResponse(token));
     }
 
 }
