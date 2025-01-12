@@ -29,7 +29,7 @@ public class ProdutoService {
     }
 
     @Transactional
-    public void criarProduto(Produto produto, List<MultipartFile> imagens) {
+    public Produto criarProduto(Produto produto, List<MultipartFile> imagens) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Usuario usuarioLogado = usuarioService.findUsuarioLogado(((Usuario) auth.getPrincipal()).getEmail());
 
@@ -39,7 +39,7 @@ public class ProdutoService {
         List<File> produtoImagens = getProdutoImagens(imagens, produtoSalvo);
         produto.setProdutoImagem(produtoImagens);
 
-        produtoRepository.save(produto);
+        return produtoRepository.save(produto);
     }
 
     private List<File> getProdutoImagens(List<MultipartFile> files, Produto produto) {

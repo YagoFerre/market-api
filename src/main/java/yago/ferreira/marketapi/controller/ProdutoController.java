@@ -20,7 +20,7 @@ public class ProdutoController {
 
     @PostMapping
     public ResponseEntity<Void> salvarProduto(
-            @RequestBody Produto produto,
+            @RequestPart("produto") Produto produto,
             @RequestPart("imagens") List<MultipartFile> imagens) {
         produtoService.criarProduto(produto, imagens);
 

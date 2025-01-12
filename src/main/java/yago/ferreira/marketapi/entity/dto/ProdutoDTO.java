@@ -3,6 +3,7 @@ package yago.ferreira.marketapi.entity.dto;
 import yago.ferreira.marketapi.entity.File;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class ProdutoDTO {
 
@@ -11,18 +12,18 @@ public class ProdutoDTO {
     private String descricao;
     private BigDecimal preco;
     private UsuarioDTO usuario;
-    private File imagem;
+    private List<File> imagens;
 
     public ProdutoDTO() {
     }
 
-    public ProdutoDTO(Long id, String titulo, String descricao, BigDecimal preco, UsuarioDTO usuario, File imagem) {
+    public ProdutoDTO(Long id, String titulo, String descricao, BigDecimal preco, UsuarioDTO usuario, List<File> imagens) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
         this.preco = preco;
         this.usuario = usuario;
-        this.imagem = imagem;
+        this.imagens = imagens;
     }
 
     public Long getId() {
@@ -65,12 +66,12 @@ public class ProdutoDTO {
         this.usuario = usuario;
     }
 
-    public File getImagem() {
-        return imagem;
+    public List<File> getImagens() {
+        return imagens;
     }
 
-    public void setImagem(File imagem) {
-        this.imagem = imagem;
+    public void setImagens(List<File> imagens) {
+        this.imagens = imagens;
     }
 
 }

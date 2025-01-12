@@ -1,6 +1,8 @@
 package yago.ferreira.marketapi.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -12,10 +14,20 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @NotNull
+    @Column(nullable = false, length = 100)
     private String titulo;
+
+    @NotBlank
+    @NotNull
     private String descricao;
+
+    @NotBlank
+    @NotNull
     private BigDecimal preco;
-    private Boolean ativo;
+
+    private Boolean ativo = Boolean.TRUE;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id")
