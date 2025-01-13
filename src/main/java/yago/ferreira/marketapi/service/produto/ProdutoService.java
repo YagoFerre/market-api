@@ -18,7 +18,6 @@ import java.util.List;
 public class ProdutoService {
 
     private final ProdutoRepository produtoRepository;
-
     private final UsuarioService usuarioService;
     private final FileService fileService;
 
@@ -40,6 +39,24 @@ public class ProdutoService {
         produto.setProdutoImagem(produtoImagens);
 
         return produtoRepository.save(produto);
+    }
+
+    public Produto atualizarProduto(Long id, Produto produto, List<MultipartFile> imagens) {
+        return produtoRepository.findById(id)
+                .map(produtoFound -> {
+                    produtoFound.setTitulo(produto.getTitulo());
+                    produtoFound.setDescricao(produto.getDescricao());
+                    produtoFound.setPreco(produto.getPreco());
+                    produtoFound.setAtivo(produto.getAtivo());
+                    // TODO lógica para atualizar as imagens do produto
+
+                    return produtoRepository.save(produtoFound);
+                })
+                .orElse(produto);
+    }
+
+    public void deletarProduto(Long id) {
+        produtoRepository.deleteById(id);
     }
 
     private List<File> getProdutoImagens(List<MultipartFile> files, Produto produto) {

@@ -1,5 +1,6 @@
 package yago.ferreira.marketapi.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,10 +21,16 @@ public class ProdutoController {
 
     @PostMapping
     public ResponseEntity<Void> salvarProduto(
-            @RequestPart("produto") Produto produto,
+            @RequestPart("produto") @Valid Produto produto,
             @RequestPart("imagens") List<MultipartFile> imagens) {
         produtoService.criarProduto(produto, imagens);
 
         return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluirProduto(@PathVariable Long id) {
+        produtoService.deletarProduto(id);
+        return ResponseEntity.noContent().build();
     }
 }
