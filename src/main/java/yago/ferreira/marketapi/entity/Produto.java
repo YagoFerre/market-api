@@ -1,13 +1,18 @@
 package yago.ferreira.marketapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
+@SQLDelete(sql = "UPDATE produto SET ativo = false WHERE id = ?")
+@SQLRestriction("ativo = true")
 public class Produto {
 
     @Id
@@ -27,13 +32,15 @@ public class Produto {
     @NotNull
     private BigDecimal preco;
 
-    private Boolean ativo = Boolean.TRUE;
+    @NotNull
+    private Boolean ativo = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
     @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("produtoImagem")
     private List<File> produtoImagem;
 
     public Produto() {

@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import yago.ferreira.marketapi.entity.File;
 import yago.ferreira.marketapi.entity.Produto;
 import yago.ferreira.marketapi.entity.Usuario;
+import yago.ferreira.marketapi.exceptions.RecordNotFoundException;
 import yago.ferreira.marketapi.repository.ProdutoRepository;
 import yago.ferreira.marketapi.service.file.FileService;
 import yago.ferreira.marketapi.service.usuario.UsuarioService;
@@ -52,11 +53,16 @@ public class ProdutoService {
 
                     return produtoRepository.save(produtoFound);
                 })
-                .orElse(produto);
+                .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
     public void deletarProduto(Long id) {
         produtoRepository.deleteById(id);
+    }
+
+    public Produto listProdutoById(Long id) {
+        return produtoRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
     private List<File> getProdutoImagens(List<MultipartFile> files, Produto produto) {

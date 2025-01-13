@@ -1,6 +1,8 @@
 package yago.ferreira.marketapi.entity.dto;
 
-import yago.ferreira.marketapi.entity.File;
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -8,22 +10,34 @@ import java.util.List;
 public class ProdutoDTO {
 
     private Long id;
+
+    @NotBlank
+    @NotNull
+    @Column(nullable = false, length = 100)
     private String titulo;
+
+    @NotBlank
+    @NotNull
     private String descricao;
+
+    @NotBlank
+    @NotNull
     private BigDecimal preco;
+
     private UsuarioDTO usuario;
-    private List<File> imagens;
+
+    private List<FileDTO> produtoImagem;
 
     public ProdutoDTO() {
     }
 
-    public ProdutoDTO(Long id, String titulo, String descricao, BigDecimal preco, UsuarioDTO usuario, List<File> imagens) {
+    public ProdutoDTO(Long id, String titulo, String descricao, BigDecimal preco, UsuarioDTO usuario, List<FileDTO> produtoImagem) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
         this.preco = preco;
         this.usuario = usuario;
-        this.imagens = imagens;
+        this.produtoImagem = produtoImagem;
     }
 
     public Long getId() {
@@ -34,27 +48,27 @@ public class ProdutoDTO {
         this.id = id;
     }
 
-    public String getTitulo() {
+    public @NotBlank @NotNull String getTitulo() {
         return titulo;
     }
 
-    public void setTitulo(String titulo) {
+    public void setTitulo(@NotBlank @NotNull String titulo) {
         this.titulo = titulo;
     }
 
-    public String getDescricao() {
+    public @NotBlank @NotNull String getDescricao() {
         return descricao;
     }
 
-    public void setDescricao(String descricao) {
+    public void setDescricao(@NotBlank @NotNull String descricao) {
         this.descricao = descricao;
     }
 
-    public BigDecimal getPreco() {
+    public @NotBlank @NotNull BigDecimal getPreco() {
         return preco;
     }
 
-    public void setPreco(BigDecimal preco) {
+    public void setPreco(@NotBlank @NotNull BigDecimal preco) {
         this.preco = preco;
     }
 
@@ -66,12 +80,12 @@ public class ProdutoDTO {
         this.usuario = usuario;
     }
 
-    public List<File> getImagens() {
-        return imagens;
+    public List<FileDTO> getProdutoImagem() {
+        return produtoImagem;
     }
 
-    public void setImagens(List<File> imagens) {
-        this.imagens = imagens;
+    public void setProdutoImagem(List<FileDTO> produtoImagem) {
+        this.produtoImagem = produtoImagem;
     }
 
 }
