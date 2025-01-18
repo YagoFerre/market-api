@@ -8,6 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 import yago.ferreira.marketapi.entity.File;
 import yago.ferreira.marketapi.entity.Produto;
 import yago.ferreira.marketapi.entity.Usuario;
+import yago.ferreira.marketapi.entity.dto.ProdutoDTO;
+import yago.ferreira.marketapi.entity.mapper.ProdutoMapper;
 import yago.ferreira.marketapi.exceptions.RecordNotFoundException;
 import yago.ferreira.marketapi.repository.ProdutoRepository;
 import yago.ferreira.marketapi.service.file.FileService;
@@ -21,15 +23,17 @@ public class ProdutoService {
     private final ProdutoRepository produtoRepository;
     private final UsuarioService usuarioService;
     private final FileService fileService;
+    private final ProdutoMapper produtoMapper;
 
-    public ProdutoService(ProdutoRepository produtoRepository, UsuarioService usuarioService, FileService fileService) {
+    public ProdutoService(ProdutoRepository produtoRepository, UsuarioService usuarioService, FileService fileService, ProdutoMapper produtoMapper) {
         this.produtoRepository = produtoRepository;
         this.usuarioService = usuarioService;
         this.fileService = fileService;
+        this.produtoMapper = produtoMapper;
     }
 
     @Transactional
-    public Produto criarProduto(Produto produto, List<MultipartFile> imagens) {
+    public ProdutoDTO criarProduto(Produto produto, List<MultipartFile> imagens) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Usuario usuarioLogado = usuarioService.findUsuarioLogado(((Usuario) auth.getPrincipal()).getEmail());
 
@@ -39,10 +43,10 @@ public class ProdutoService {
         List<File> produtoImagens = getProdutoImagens(imagens, produtoSalvo);
         produto.setProdutoImagem(produtoImagens);
 
-        return produtoRepository.save(produto);
+        return produtoMapper.toDTO(produtoRepository.save(produto));
     }
 
-    public Produto atualizarProduto(Long id, Produto produto, List<MultipartFile> imagens) {
+    public ProdutoDTO atualizarProduto(Long id, Produto produto, List<MultipartFile> imagens) {
         return produtoRepository.findById(id)
                 .map(produtoFound -> {
                     produtoFound.setTitulo(produto.getTitulo());
@@ -51,7 +55,7 @@ public class ProdutoService {
                     produtoFound.setAtivo(produto.getAtivo());
                     // TODO lógica para atualizar as imagens do produto
 
-                    return produtoRepository.save(produtoFound);
+                    return produtoMapper.toDTO(produtoRepository.save(produtoFound));
                 })
                 .orElseThrow(() -> new RecordNotFoundException(id));
     }
@@ -60,8 +64,9 @@ public class ProdutoService {
         produtoRepository.deleteById(id);
     }
 
-    public Produto listProdutoById(Long id) {
+    public ProdutoDTO listProdutoById(Long id) {
         return produtoRepository.findById(id)
+                .map(produtoMapper::toDTO)
                 .orElseThrow(() -> new RecordNotFoundException(id));
     }
 

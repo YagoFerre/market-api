@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import yago.ferreira.marketapi.entity.Produto;
+import yago.ferreira.marketapi.entity.dto.ProdutoDTO;
 import yago.ferreira.marketapi.service.produto.ProdutoService;
 
 import java.util.List;
@@ -33,8 +34,8 @@ public class ProdutoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Produto> buscarProdutoPorId(@PathVariable @Positive Long id) {
-        Produto produtoEncontrado = produtoService.listProdutoById(id);
+    public ResponseEntity<ProdutoDTO> buscarProdutoPorId(@PathVariable @Positive Long id) {
+        ProdutoDTO produtoEncontrado = produtoService.listProdutoById(id);
         return ResponseEntity.ok().body(produtoEncontrado);
     }
 
