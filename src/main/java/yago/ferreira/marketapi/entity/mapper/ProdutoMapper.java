@@ -9,6 +9,7 @@ import yago.ferreira.marketapi.entity.dto.ProdutoDTO;
 import yago.ferreira.marketapi.entity.dto.UsuarioDTO;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -52,6 +53,7 @@ public class ProdutoMapper {
         }
 
         UsuarioDTO usuarioDTO = new UsuarioDTO();
+
         usuarioDTO.setEmail(usuario.getEmail());
         usuarioDTO.setNome(usuario.getNome());
         return usuarioDTO;
@@ -63,6 +65,7 @@ public class ProdutoMapper {
         }
 
         Usuario usuario = new Usuario();
+
         usuario.setEmail(usuarioDTO.getEmail());
         usuario.setNome(usuarioDTO.getNome());
         return usuario;
@@ -96,7 +99,7 @@ public class ProdutoMapper {
 
     private List<FileDTO> toFileDTOList(List<File> files) {
         if (files == null) {
-            return null;
+            return Collections.emptyList();
         }
 
         List<FileDTO> filesDTO = new ArrayList<>();
@@ -110,7 +113,7 @@ public class ProdutoMapper {
 
     private List<File> toFileEntityList(List<FileDTO> filesDTO) {
         if (filesDTO == null) {
-            return null;
+            return Collections.emptyList();
         }
 
         List<File> files = new ArrayList<>();
