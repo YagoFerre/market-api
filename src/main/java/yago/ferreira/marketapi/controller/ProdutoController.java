@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import yago.ferreira.marketapi.entity.Produto;
 import yago.ferreira.marketapi.entity.dto.ProdutoDTO;
 import yago.ferreira.marketapi.service.produto.ProdutoService;
 
@@ -26,9 +25,9 @@ public class ProdutoController {
 
     @PostMapping
     public ResponseEntity<Void> salvarProduto(
-            @RequestPart("produto") @Valid Produto produto,
+            @RequestPart("produto") @Valid ProdutoDTO produtoDTO,
             @RequestPart("imagens") List<MultipartFile> imagens) {
-        produtoService.criarProduto(produto, imagens);
+        produtoService.criarProduto(produtoDTO, imagens);
 
         return ResponseEntity.ok().build();
     }

@@ -33,7 +33,9 @@ public class ProdutoService {
     }
 
     @Transactional
-    public ProdutoDTO criarProduto(Produto produto, List<MultipartFile> imagens) {
+    public ProdutoDTO criarProduto(ProdutoDTO produtoDTO, List<MultipartFile> imagens) {
+        Produto produto = produtoMapper.toEntity(produtoDTO);
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Usuario usuarioLogado = usuarioService.findUsuarioLogado(((Usuario) auth.getPrincipal()).getEmail());
 
@@ -46,9 +48,11 @@ public class ProdutoService {
         return produtoMapper.toDTO(produtoRepository.save(produto));
     }
 
-    public ProdutoDTO atualizarProduto(Long id, Produto produto, List<MultipartFile> imagens) {
+    public ProdutoDTO atualizarProduto(Long id, ProdutoDTO produtoDTO, List<MultipartFile> imagens) {
         return produtoRepository.findById(id)
                 .map(produtoFound -> {
+                    Produto produto = produtoMapper.toEntity(produtoDTO);
+
                     produtoFound.setTitulo(produto.getTitulo());
                     produtoFound.setDescricao(produto.getDescricao());
                     produtoFound.setPreco(produto.getPreco());
