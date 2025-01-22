@@ -40,7 +40,7 @@ public class Produto {
     private Usuario usuario;
 
     @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("produtoImagem")
+    @JsonIgnoreProperties("produto")
     private List<File> produtoImagem;
 
     public Produto() {

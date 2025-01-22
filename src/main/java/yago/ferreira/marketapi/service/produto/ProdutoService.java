@@ -57,8 +57,9 @@ public class ProdutoService {
                     produtoFound.setDescricao(produto.getDescricao());
                     produtoFound.setPreco(produto.getPreco());
                     produtoFound.setAtivo(produto.getAtivo());
-                    // TODO lógica para atualizar as imagens do produto
 
+                    produtoFound.getProdutoImagem().clear();
+                    produto.getProdutoImagem().forEach(prdutoImagens -> produtoFound.getProdutoImagem().add(prdutoImagens));
                     return produtoMapper.toDTO(produtoRepository.save(produtoFound));
                 })
                 .orElseThrow(() -> new RecordNotFoundException(id));
