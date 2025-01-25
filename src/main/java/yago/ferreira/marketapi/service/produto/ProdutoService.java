@@ -58,8 +58,12 @@ public class ProdutoService {
                     produtoFound.setPreco(produto.getPreco());
                     produtoFound.setAtivo(produto.getAtivo());
 
+                    // Adiciona novas imagens se tiver
+                    List<File> produtoImagens = getProdutoImagens(imagens, produtoFound);
+
+                    // Mantém as imagens já salvas
                     produtoFound.getProdutoImagem().clear();
-                    produto.getProdutoImagem().forEach(prdutoImagens -> produtoFound.getProdutoImagem().add(prdutoImagens));
+                    produtoImagens.forEach(prdutoImagem -> produtoFound.getProdutoImagem().add(prdutoImagem));
                     return produtoMapper.toDTO(produtoRepository.save(produtoFound));
                 })
                 .orElseThrow(() -> new RecordNotFoundException(id));
@@ -76,11 +80,10 @@ public class ProdutoService {
     }
 
     private List<File> getProdutoImagens(List<MultipartFile> files, Produto produto) {
-        File fileImage = new File();
-
         return files.stream().map(file -> {
             String filePath = fileService.storeFile(file);
 
+            File fileImage = new File();
             fileImage.setNome(file.getOriginalFilename());
             fileImage.setFilePath(filePath);
             fileImage.setProduto(produto);
