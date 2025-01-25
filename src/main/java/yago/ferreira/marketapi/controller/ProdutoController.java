@@ -28,8 +28,16 @@ public class ProdutoController {
             @RequestPart("produto") @Valid ProdutoDTO produtoDTO,
             @RequestPart("imagens") List<MultipartFile> imagens) {
         produtoService.criarProduto(produtoDTO, imagens);
-
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProdutoDTO> atualizarProduto(
+            @PathVariable @Positive Long id,
+            @RequestPart("produto") @Valid ProdutoDTO produtoDTO,
+            @RequestPart("imagens") List<MultipartFile> imagens
+    ) {
+        return ResponseEntity.ok().body(produtoService.atualizarProduto(id, produtoDTO, imagens));
     }
 
     @GetMapping("/{id}")
@@ -43,4 +51,5 @@ public class ProdutoController {
         produtoService.deletarProduto(id);
         return ResponseEntity.noContent().build();
     }
+
 }
