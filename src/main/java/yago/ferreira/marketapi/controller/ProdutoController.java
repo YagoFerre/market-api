@@ -24,11 +24,10 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> salvarProduto(
+    public ResponseEntity<ProdutoDTO> salvarProduto(
             @RequestPart("produto") @Valid ProdutoDTO produtoDTO,
             @RequestPart("imagens") List<MultipartFile> imagens) {
-        produtoService.criarProduto(produtoDTO, imagens);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(produtoService.criarProduto(produtoDTO, imagens));
     }
 
     @PutMapping("/{id}")
