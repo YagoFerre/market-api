@@ -8,6 +8,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,7 +29,6 @@ public class Produto {
     @NotNull
     private String descricao;
 
-    @NotBlank
     @NotNull
     private BigDecimal preco;
 
@@ -41,7 +41,7 @@ public class Produto {
 
     @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnoreProperties("produto")
-    private List<File> produtoImagem;
+    private List<File> produtoImagem = new ArrayList<>();
 
     public Produto() {
     }

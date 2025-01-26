@@ -16,6 +16,7 @@ import yago.ferreira.marketapi.service.file.FileService;
 import yago.ferreira.marketapi.service.usuario.UsuarioService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProdutoService {
@@ -88,6 +89,7 @@ public class ProdutoService {
             fileImage.setFilePath(filePath);
             fileImage.setProduto(produto);
             return fileImage;
-        }).toList();
+        }).collect(Collectors.toList());
     }
+
 }
