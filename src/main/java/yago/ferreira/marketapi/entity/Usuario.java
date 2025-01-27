@@ -22,14 +22,18 @@ public class Usuario implements UserDetails {
     @Column(nullable = false)
     private String senha;
 
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Avatar avatar;
+
     public Usuario() {
     }
 
-    public Usuario(Long id, String email, String nome, String senha) {
+    public Usuario(Long id, String email, String nome, String senha, Avatar avatar) {
         this.id = id;
         this.email = email;
         this.nome = nome;
         this.senha = senha;
+        this.avatar = avatar;
     }
 
     public Long getId() {
@@ -62,6 +66,14 @@ public class Usuario implements UserDetails {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public Avatar getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
     }
 
     @Override

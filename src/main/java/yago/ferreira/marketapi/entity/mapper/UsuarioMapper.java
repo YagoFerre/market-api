@@ -1,7 +1,9 @@
 package yago.ferreira.marketapi.entity.mapper;
 
 import org.springframework.stereotype.Component;
+import yago.ferreira.marketapi.entity.Avatar;
 import yago.ferreira.marketapi.entity.Usuario;
+import yago.ferreira.marketapi.entity.dto.AvatarDTO;
 import yago.ferreira.marketapi.entity.dto.UsuarioDTO;
 import yago.ferreira.marketapi.entity.request.RegisterRequest;
 
@@ -17,6 +19,7 @@ public class UsuarioMapper {
 
         usuarioDTO.setEmail(usuario.getEmail());
         usuarioDTO.setNome(usuario.getNome());
+        usuarioDTO.setAvatar(toAvatarDTO(usuario.getAvatar()));
         return usuarioDTO;
     }
 
@@ -35,6 +38,31 @@ public class UsuarioMapper {
         usuario.setNome(request.getNome());
         usuario.setSenha(request.getSenha());
         return usuario;
+    }
+
+    private AvatarDTO toAvatarDTO(Avatar avatar) {
+        if (avatar == null) {
+            return null;
+        }
+
+        AvatarDTO avatarDTO = new AvatarDTO();
+
+        avatarDTO.setId(avatar.getId());
+        avatarDTO.setNome(avatar.getNome());
+        avatarDTO.setFilePath(avatar.getFilePath());
+        return avatarDTO;
+    }
+
+    private Avatar toAvatarEntity(AvatarDTO avatarDTO) {
+        if (avatarDTO == null) {
+            return null;
+        }
+
+        Avatar avatar = new Avatar();
+        avatar.setId(avatarDTO.getId());
+        avatar.setNome(avatarDTO.getNome());
+        avatar.setFilePath(avatarDTO.getFilePath());
+        return avatar;
     }
 
 }

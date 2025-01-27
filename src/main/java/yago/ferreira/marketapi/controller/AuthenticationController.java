@@ -4,10 +4,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import yago.ferreira.marketapi.entity.Usuario;
 import yago.ferreira.marketapi.entity.dto.UsuarioDTO;
 import yago.ferreira.marketapi.entity.request.AuthenticationRequest;
@@ -31,8 +29,11 @@ public class AuthenticationController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UsuarioDTO> createUser(@RequestBody @Valid RegisterRequest registerRequest) {
-        return ResponseEntity.ok(usuarioService.createUsuario(registerRequest));
+    public ResponseEntity<UsuarioDTO> createUser(
+            @RequestPart("usuario") @Valid RegisterRequest registerRequest,
+            @RequestPart("avatar") MultipartFile avatar
+    ) {
+        return ResponseEntity.ok(usuarioService.createUsuario(registerRequest, avatar));
     }
 
     @PostMapping("/login")
