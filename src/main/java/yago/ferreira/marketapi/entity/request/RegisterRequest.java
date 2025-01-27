@@ -1,8 +1,19 @@
 package yago.ferreira.marketapi.entity.request;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class RegisterRequest {
+    @Email
     private String email;
+
+    @NotNull
+    @NotBlank
     private String nome;
+
+    @NotNull
+    @NotBlank
     private String senha;
 
     public RegisterRequest() {
@@ -14,27 +25,27 @@ public class RegisterRequest {
         this.senha = senha;
     }
 
-    public String getEmail() {
+    public @Email String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(@Email String email) {
         this.email = email;
     }
 
-    public String getNome() {
+    public @NotNull @NotBlank String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
+    public void setNome(@NotNull @NotBlank String nome) {
         this.nome = nome;
     }
 
-    public String getSenha() {
+    public @NotNull @NotBlank String getSenha() {
         return senha;
     }
 
-    public void setSenha(String senha) {
+    public void setSenha(@NotNull @NotBlank String senha) {
         this.senha = senha;
     }
 }

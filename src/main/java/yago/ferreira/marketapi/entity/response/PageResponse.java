@@ -2,18 +2,22 @@ package yago.ferreira.marketapi.entity.response;
 
 import java.util.List;
 
-public class PageModel<T> {
+public class PageResponse<T> {
     private List<T> content;
     private int page;
     private int size;
     private int totalPages;
     private Long totalElements;
 
-    public PageModel() {
+    public PageResponse() {
     }
 
-    public PageModel(List<T> content) {
+    public PageResponse(List<T> content, int page, int size, int totalPages, Long totalElements) {
         this.content = content;
+        this.page = page;
+        this.size = size;
+        this.totalPages = totalPages;
+        this.totalElements = totalElements;
     }
 
     public List<T> getContent() {

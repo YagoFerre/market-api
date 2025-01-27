@@ -41,6 +41,14 @@ public class ProdutoService {
         return produtos.map(produtoMapper::toDTO);
     }
 
+    public Page<ProdutoDTO> listarProdutosUsuario(int pagina, int itens) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = ((Usuario) auth.getPrincipal()).getEmail();
+
+        Page<Produto> produtosUsuario = produtoRepository.findAllByUsuarioEmail(email, PageRequest.of(pagina, itens));
+        return produtosUsuario.map(produtoMapper::toDTO);
+    }
+
     @Transactional
     public ProdutoDTO criarProduto(ProdutoDTO produtoDTO, List<MultipartFile> imagens) {
         Produto produto = produtoMapper.toEntity(produtoDTO);

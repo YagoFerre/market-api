@@ -9,7 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import yago.ferreira.marketapi.entity.dto.ProdutoDTO;
-import yago.ferreira.marketapi.entity.response.PageModel;
+import yago.ferreira.marketapi.entity.response.PageResponse;
 import yago.ferreira.marketapi.service.produto.ProdutoService;
 
 import java.util.List;
@@ -27,14 +27,36 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public ResponseEntity<PageModel<ProdutoDTO>> listarProdutos(
+    public ResponseEntity<PageResponse<ProdutoDTO>> listarProdutos(
             @RequestParam(defaultValue = "0") int pagina,
             @RequestParam(defaultValue = "15") int size
     ) {
         Page<ProdutoDTO> page = produtoService.listarProdutos(pagina, size);
 
-        PageModel<ProdutoDTO> response = new PageModel<>(page
-                .stream().collect(Collectors.toList()));
+        PageResponse<ProdutoDTO> response = new PageResponse<>(
+                page.stream().collect(Collectors.toList()),
+                pagina,
+                size,
+                page.getTotalPages(),
+                page.getTotalElements()
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/anuncios")
+    public ResponseEntity<PageResponse<ProdutoDTO>> listarProdutosUsuarioAtual(
+            @RequestParam(defaultValue = "0") int pagina,
+            @RequestParam(defaultValue = "15") int size
+    ) {
+        Page<ProdutoDTO> page = produtoService.listarProdutosUsuario(pagina, size);
+
+        PageResponse<ProdutoDTO> response = new PageResponse<>(
+                page.stream().collect(Collectors.toList()),
+                pagina,
+                size,
+                page.getTotalPages(),
+                page.getTotalElements()
+        );
         return ResponseEntity.ok(response);
     }
 
