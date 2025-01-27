@@ -31,7 +31,7 @@ public class AuthenticationController {
     @PostMapping("/create")
     public ResponseEntity<UsuarioDTO> createUser(
             @RequestPart("usuario") @Valid RegisterRequest registerRequest,
-            @RequestPart("avatar") MultipartFile avatar
+            @RequestPart(value = "avatar", required = false) MultipartFile avatar
     ) {
         return ResponseEntity.ok(usuarioService.createUsuario(registerRequest, avatar));
     }

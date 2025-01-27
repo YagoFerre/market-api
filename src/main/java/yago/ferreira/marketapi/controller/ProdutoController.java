@@ -69,7 +69,7 @@ public class ProdutoController {
     @PostMapping
     public ResponseEntity<ProdutoDTO> salvarProduto(
             @RequestPart("produto") @Valid ProdutoDTO produtoDTO,
-            @RequestPart("imagens") List<MultipartFile> imagens) {
+            @RequestPart(value = "imagens", required = false) List<MultipartFile> imagens) {
         return ResponseEntity.ok().body(produtoService.criarProduto(produtoDTO, imagens));
     }
 
@@ -77,7 +77,7 @@ public class ProdutoController {
     public ResponseEntity<ProdutoDTO> atualizarProduto(
             @PathVariable @Positive Long id,
             @RequestPart("produto") @Valid ProdutoDTO produtoDTO,
-            @RequestPart("imagens") List<MultipartFile> imagens
+            @RequestPart(value = "imagens", required = false) List<MultipartFile> imagens
     ) {
         return ResponseEntity.ok().body(produtoService.atualizarProduto(id, produtoDTO, imagens));
     }
