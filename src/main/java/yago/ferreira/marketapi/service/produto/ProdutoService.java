@@ -1,6 +1,9 @@
 package yago.ferreira.marketapi.service.produto;
 
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -31,6 +34,11 @@ public class ProdutoService {
         this.usuarioService = usuarioService;
         this.fileService = fileService;
         this.produtoMapper = produtoMapper;
+    }
+
+    public Page<ProdutoDTO> listarProdutos(int pagina, int itens) {
+        Page<Produto> produtos = produtoRepository.findAll(PageRequest.of(pagina, itens));
+        return produtos.map(produtoMapper::toDTO);
     }
 
     @Transactional
