@@ -1,5 +1,7 @@
 package yago.ferreira.marketapi.service.usuario;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,6 +38,7 @@ public class UsuarioService {
         if (usuarioExistente != null) {
             throw new EmailAlreadyExistsException();
         }
+
         Usuario usuario = usuarioMapper.registerToEntity(request);
         String senhaEncrypted = new BCryptPasswordEncoder().encode(request.getSenha());
 
@@ -44,9 +47,21 @@ public class UsuarioService {
         return usuarioMapper.toDTO(usuarioRepository.save(usuario));
     }
 
+    public UsuarioDTO updateUsuario(UsuarioDTO usuarioDTO, MultipartFile file) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = ((Usuario) auth.getPrincipal()).getEmail();
+
+        Usuario usuarioAtual = usuarioRepository.findUsuarioByEmail(email);
+
+        usuarioAtual.setNome(usuarioDTO.getNome());
+        usuarioAtual.setEmail(usuarioDTO.getEmail());
+        usuarioAtual.setAvatar(getAvatar(file, usuarioAtual));
+        return usuarioMapper.toDTO(usuarioRepository.save(usuarioAtual));
+    }
+
     private Avatar getAvatar(MultipartFile file, Usuario usuario) {
         String avatarPath = fileService.storeAvatar(file);
-        Avatar usuarioAvatar = new Avatar();
+        Avatar usuarioAvatar = usuario.getAvatar();
 
         usuarioAvatar.setNome(file.getOriginalFilename());
         usuarioAvatar.setFilePath(avatarPath);

@@ -4,36 +4,25 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import yago.ferreira.marketapi.entity.Usuario;
-import yago.ferreira.marketapi.entity.dto.UsuarioDTO;
 import yago.ferreira.marketapi.entity.request.AuthenticationRequest;
-import yago.ferreira.marketapi.entity.request.RegisterRequest;
 import yago.ferreira.marketapi.entity.response.LoginResponse;
 import yago.ferreira.marketapi.service.security.TokenService;
-import yago.ferreira.marketapi.service.usuario.UsuarioService;
 
 @RestController
 @RequestMapping("api/v1/auth")
 public class AuthenticationController {
 
-    private final UsuarioService usuarioService;
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
 
-    public AuthenticationController(UsuarioService usuarioService, AuthenticationManager authenticationManager, TokenService tokenService) {
-        this.usuarioService = usuarioService;
+    public AuthenticationController(AuthenticationManager authenticationManager, TokenService tokenService) {
         this.authenticationManager = authenticationManager;
         this.tokenService = tokenService;
-    }
-
-    @PostMapping("/create")
-    public ResponseEntity<UsuarioDTO> createUser(
-            @RequestPart("usuario") @Valid RegisterRequest registerRequest,
-            @RequestPart(value = "avatar", required = false) MultipartFile avatar
-    ) {
-        return ResponseEntity.ok(usuarioService.createUsuario(registerRequest, avatar));
     }
 
     @PostMapping("/login")
