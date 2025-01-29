@@ -63,7 +63,7 @@ public class UsuarioService {
         String avatarPath = fileService.storeAvatar(file);
         Avatar usuarioAvatar = usuario.getAvatar();
 
-        usuarioAvatar.setNome(file.getOriginalFilename());
+        usuarioAvatar.setNome(file.getOriginalFilename().replace(' ', '_'));
         usuarioAvatar.setFilePath(avatarPath);
         usuarioAvatar.setUsuario(usuario);
         return usuarioAvatar;

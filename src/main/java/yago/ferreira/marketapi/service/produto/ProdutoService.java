@@ -56,14 +56,11 @@ public class ProdutoService {
         Usuario usuarioLogado = usuarioService.findUsuarioLogado(((Usuario) auth.getPrincipal()).getEmail());
 
         produto.setUsuario(usuarioLogado);
-        Produto produtoSalvo = produtoRepository.save(produto);
-
-        List<File> produtoImagens = getProdutoImagens(imagens, produtoSalvo);
-        produto.setProdutoImagem(produtoImagens);
-
-        return produtoMapper.toDTO(produtoRepository.save(produto));
+        Produto produtoSalvo = salvarImagensDoProduto(produto, imagens);
+        return produtoMapper.toDTO(produtoSalvo);
     }
 
+    @Transactional
     public ProdutoDTO atualizarProduto(Long id, ProdutoDTO produtoDTO, List<MultipartFile> imagens) {
         return produtoRepository.findById(id)
                 .map(produtoFound -> {
@@ -74,13 +71,11 @@ public class ProdutoService {
                     produtoFound.setPreco(produto.getPreco());
                     produtoFound.setAtivo(produto.getAtivo());
 
-                    // Adiciona novas imagens se tiver
-                    List<File> produtoImagens = getProdutoImagens(imagens, produtoFound);
+                    atualizarImagensDoProduto(produtoFound, imagens);
 
-                    // Mantém as imagens já salvas
-                    produtoFound.getProdutoImagem().clear();
-                    produtoImagens.forEach(prdutoImagem -> produtoFound.getProdutoImagem().add(prdutoImagem));
-                    return produtoMapper.toDTO(produtoRepository.save(produtoFound));
+                    // Adiciona novas imagens se tiver
+                    Produto produtoAtualizado = produtoRepository.save(produtoFound);
+                    return produtoMapper.toDTO(produtoAtualizado);
                 })
                 .orElseThrow(() -> new RecordNotFoundException(id));
     }
@@ -95,12 +90,24 @@ public class ProdutoService {
                 .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
+    private Produto salvarImagensDoProduto(Produto produto, List<MultipartFile> imagens) {
+        List<File> produtoImagens = getProdutoImagens(imagens, produto);
+        produto.setProdutoImagem(produtoImagens);
+        return produtoRepository.save(produto);
+    }
+
+    private void atualizarImagensDoProduto(Produto produto, List<MultipartFile> imagens) {
+        produto.getProdutoImagem().clear();
+        List<File> produtoImagens = getProdutoImagens(imagens, produto);
+        produto.getProdutoImagem().addAll(produtoImagens);
+    }
+
     private List<File> getProdutoImagens(List<MultipartFile> files, Produto produto) {
         return files.stream().map(file -> {
             String filePath = fileService.storeFile(file);
 
             File fileImage = new File();
-            fileImage.setNome(file.getOriginalFilename());
+            fileImage.setNome(file.getOriginalFilename().replace(' ', '_'));
             fileImage.setFilePath(filePath);
             fileImage.setProduto(produto);
             return fileImage;

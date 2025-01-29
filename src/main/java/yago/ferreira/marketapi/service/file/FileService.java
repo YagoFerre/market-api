@@ -1,6 +1,7 @@
 package yago.ferreira.marketapi.service.file;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import yago.ferreira.marketapi.config.storage.FileStorageProperties;
 
@@ -9,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Objects;
 
 @Service
 public class FileService {
@@ -29,22 +31,22 @@ public class FileService {
     }
 
     public String storeFile(MultipartFile file) {
-        return getString(file, storageLocation);
+        return storeFileInternal(file, storageLocation);
     }
 
     public String storeAvatar(MultipartFile file) {
-        return getString(file, avatarStorageLocation);
+        return storeFileInternal(file, avatarStorageLocation);
     }
 
-    private String getString(MultipartFile file, Path path) {
+    private String storeFileInternal(MultipartFile file, Path targetLocation) {
         try {
-            String fileName = file.getOriginalFilename();
-            Path targetLocation = path.resolve(fileName);
-            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            String fileName = StringUtils.cleanPath(Objects.requireNonNull(Objects.requireNonNull(file.getOriginalFilename()).replace(' ', '_')));
+            Path targetPath = targetLocation.resolve(fileName);
 
+            Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
             return targetLocation.toString();
-        } catch (IOException e) {
-            throw new RuntimeException("Erro ao salvar o arquivo: " + file.getOriginalFilename(), e);
+        } catch (IOException ex) {
+            throw new RuntimeException("Falha ao armazenar arquivo " + file.getOriginalFilename(), ex);
         }
     }
 
