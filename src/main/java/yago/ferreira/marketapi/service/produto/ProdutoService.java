@@ -12,6 +12,7 @@ import yago.ferreira.marketapi.entity.Produto;
 import yago.ferreira.marketapi.entity.Usuario;
 import yago.ferreira.marketapi.entity.dto.ProdutoDTO;
 import yago.ferreira.marketapi.entity.mapper.ProdutoMapper;
+import yago.ferreira.marketapi.entity.response.FileResponse;
 import yago.ferreira.marketapi.exceptions.RecordNotFoundException;
 import yago.ferreira.marketapi.repository.ProdutoRepository;
 import yago.ferreira.marketapi.service.file.FileService;
@@ -56,8 +57,12 @@ public class ProdutoService {
         Usuario usuarioLogado = usuarioService.findUsuarioLogado(((Usuario) auth.getPrincipal()).getEmail());
 
         produto.setUsuario(usuarioLogado);
-        Produto produtoSalvo = salvarImagensDoProduto(produto, imagens);
-        return produtoMapper.toDTO(produtoSalvo);
+
+        if (imagens != null) {
+            salvarImagensDoProduto(produto, imagens);
+        }
+
+        return produtoMapper.toDTO(produtoRepository.save(produto));
     }
 
     @Transactional
@@ -71,7 +76,9 @@ public class ProdutoService {
                     produtoFound.setPreco(produto.getPreco());
                     produtoFound.setAtivo(produto.getAtivo());
 
-                    atualizarImagensDoProduto(produtoFound, imagens);
+                    if (imagens != null) {
+                        atualizarImagensDoProduto(produtoFound, imagens);
+                    }
 
                     // Adiciona novas imagens se tiver
                     Produto produtoAtualizado = produtoRepository.save(produtoFound);
@@ -90,10 +97,9 @@ public class ProdutoService {
                 .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
-    private Produto salvarImagensDoProduto(Produto produto, List<MultipartFile> imagens) {
+    private void salvarImagensDoProduto(Produto produto, List<MultipartFile> imagens) {
         List<File> produtoImagens = getProdutoImagens(imagens, produto);
         produto.setProdutoImagem(produtoImagens);
-        return produtoRepository.save(produto);
     }
 
     private void atualizarImagensDoProduto(Produto produto, List<MultipartFile> imagens) {
@@ -104,11 +110,11 @@ public class ProdutoService {
 
     private List<File> getProdutoImagens(List<MultipartFile> files, Produto produto) {
         return files.stream().map(file -> {
-            String filePath = fileService.storeFile(file);
+            FileResponse fileResponse = fileService.storeFile(file);
 
             File fileImage = new File();
-            fileImage.setNome(file.getOriginalFilename().replace(' ', '_'));
-            fileImage.setFilePath(filePath);
+            fileImage.setNome(fileResponse.getFileName());
+            fileImage.setFilePath(fileResponse.getFilePath());
             fileImage.setProduto(produto);
             return fileImage;
         }).collect(Collectors.toList());

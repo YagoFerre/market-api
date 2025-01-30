@@ -11,6 +11,7 @@ import yago.ferreira.marketapi.entity.Usuario;
 import yago.ferreira.marketapi.entity.dto.UsuarioDTO;
 import yago.ferreira.marketapi.entity.mapper.UsuarioMapper;
 import yago.ferreira.marketapi.entity.request.RegisterRequest;
+import yago.ferreira.marketapi.entity.response.FileResponse;
 import yago.ferreira.marketapi.exceptions.EmailAlreadyExistsException;
 import yago.ferreira.marketapi.repository.UsuarioRepository;
 import yago.ferreira.marketapi.service.file.FileService;
@@ -60,11 +61,11 @@ public class UsuarioService {
     }
 
     private Avatar getAvatar(MultipartFile file, Usuario usuario) {
-        String avatarPath = fileService.storeAvatar(file);
+        FileResponse fileResponse = fileService.storeAvatar(file);
         Avatar usuarioAvatar = usuario.getAvatar();
 
-        usuarioAvatar.setNome(file.getOriginalFilename().replace(' ', '_'));
-        usuarioAvatar.setFilePath(avatarPath);
+        usuarioAvatar.setNome(fileResponse.getFileName());
+        usuarioAvatar.setFilePath(fileResponse.getFilePath());
         usuarioAvatar.setUsuario(usuario);
         return usuarioAvatar;
     }

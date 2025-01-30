@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import yago.ferreira.marketapi.config.storage.FileStorageProperties;
+import yago.ferreira.marketapi.entity.response.FileResponse;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -30,24 +31,32 @@ public class FileService {
         }
     }
 
-    public String storeFile(MultipartFile file) {
+    public FileResponse storeFile(MultipartFile file) {
         return storeFileInternal(file, storageLocation);
     }
 
-    public String storeAvatar(MultipartFile file) {
+    public FileResponse storeAvatar(MultipartFile file) {
         return storeFileInternal(file, avatarStorageLocation);
     }
 
-    private String storeFileInternal(MultipartFile file, Path targetLocation) {
+    private FileResponse storeFileInternal(MultipartFile file, Path targetLocation) {
         try {
-            String fileName = StringUtils.cleanPath(Objects.requireNonNull(Objects.requireNonNull(file.getOriginalFilename()).replace(' ', '_')));
+            String fileName = generateUniqueFileName(file);
             Path targetPath = targetLocation.resolve(fileName);
 
             Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
-            return targetLocation.toString();
+
+
+            return new FileResponse(fileName, targetLocation.toString());
         } catch (IOException ex) {
             throw new RuntimeException("Falha ao armazenar arquivo " + file.getOriginalFilename(), ex);
         }
+    }
+
+    private String generateUniqueFileName(MultipartFile file) {
+        String originalFileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()).replace(' ', '_'));
+        Long timestamp = System.currentTimeMillis();
+        return timestamp + "_" + originalFileName;
     }
 
 }
