@@ -56,14 +56,28 @@ public class UsuarioService {
 
         usuarioAtual.setNome(usuarioDTO.getNome());
         usuarioAtual.setEmail(usuarioDTO.getEmail());
-        usuarioAtual.setAvatar(getAvatar(file, usuarioAtual));
+
+        if (file != null) {
+            usuarioAtual.setAvatar(getAvatarAtualizado(file, usuarioAtual));
+        }
+
         return usuarioMapper.toDTO(usuarioRepository.save(usuarioAtual));
+    }
+
+    private Avatar getAvatarAtualizado(MultipartFile file, Usuario usuario) {
+        FileResponse fileResponse = fileService.storeAvatar(file);
+
+        Avatar usuarioAvatar = usuario.getAvatar();
+        usuarioAvatar.setNome(fileResponse.getFileName());
+        usuarioAvatar.setFilePath(fileResponse.getFilePath());
+        usuarioAvatar.setUsuario(usuario);
+        return usuarioAvatar;
     }
 
     private Avatar getAvatar(MultipartFile file, Usuario usuario) {
         FileResponse fileResponse = fileService.storeAvatar(file);
-        Avatar usuarioAvatar = usuario.getAvatar();
 
+        Avatar usuarioAvatar = new Avatar();
         usuarioAvatar.setNome(fileResponse.getFileName());
         usuarioAvatar.setFilePath(fileResponse.getFilePath());
         usuarioAvatar.setUsuario(usuario);
