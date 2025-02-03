@@ -10,3 +10,4 @@ spring.jpa.hibernate.ddl-auto=
 api.security.token.secret=
 
 file.upload-dir=
+file.upload-avatar-dir=

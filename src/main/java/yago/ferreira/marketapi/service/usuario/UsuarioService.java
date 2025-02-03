@@ -44,7 +44,11 @@ public class UsuarioService {
         String senhaEncrypted = new BCryptPasswordEncoder().encode(request.getSenha());
 
         usuario.setSenha(senhaEncrypted);
-        usuario.setAvatar(getAvatar(file, usuario));
+
+        if (file != null) {
+            usuario.setAvatar(getAvatar(file, usuario));
+        }
+
         return usuarioMapper.toDTO(usuarioRepository.save(usuario));
     }
 
