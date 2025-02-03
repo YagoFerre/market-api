@@ -65,9 +65,19 @@ public class UsuarioService {
     }
 
     private Avatar getAvatarAtualizado(MultipartFile file, Usuario usuario) {
+        if (file.isEmpty()) {
+            usuario.setAvatar(new Avatar());
+            return null;
+        }
+
         FileResponse fileResponse = fileService.storeAvatar(file);
 
-        Avatar usuarioAvatar = usuario.getAvatar();
+        Avatar usuarioAvatar = new Avatar();
+
+        if (usuario.getAvatar() != null) {
+            usuarioAvatar = usuario.getAvatar();
+        }
+
         usuarioAvatar.setNome(fileResponse.getFileName());
         usuarioAvatar.setFilePath(fileResponse.getFilePath());
         usuarioAvatar.setUsuario(usuario);
