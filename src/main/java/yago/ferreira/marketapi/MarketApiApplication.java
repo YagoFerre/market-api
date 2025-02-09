@@ -3,7 +3,7 @@ package yago.ferreira.marketapi;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import yago.ferreira.marketapi.utils.storage.FileStorageProperties;
+import yago.ferreira.marketapi.infra.config.storage.FileStorageProperties;
 
 @SpringBootApplication
 @EnableConfigurationProperties(FileStorageProperties.class)

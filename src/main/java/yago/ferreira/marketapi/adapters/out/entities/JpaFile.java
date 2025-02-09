@@ -1,20 +1,28 @@
-package yago.ferreira.marketapi.domain.entity;
+package yago.ferreira.marketapi.adapters.out.entities;
 
-public class Avatar {
+import jakarta.persistence.*;
 
+@Entity
+public class JpaFile {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private String filePath;
-    private Usuario usuario;
 
-    public Avatar() {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "produto_id", nullable = false)
+    private JpaProduto produto;
+
+    public JpaFile() {
     }
 
-    public Avatar(Long id, String nome, String filePath, Usuario usuario) {
+    public JpaFile(Long id, String nome, String filePath, JpaProduto produto) {
         this.id = id;
         this.nome = nome;
         this.filePath = filePath;
-        this.usuario = usuario;
+        this.produto = produto;
     }
 
     public Long getId() {
@@ -41,12 +49,12 @@ public class Avatar {
         this.filePath = filePath;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public JpaProduto getProduto() {
+        return produto;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setProduto(JpaProduto produto) {
+        this.produto = produto;
     }
 
 }

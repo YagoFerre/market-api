@@ -13,17 +13,17 @@ import yago.ferreira.marketapi.utils.mapper.UsuarioMapper;
 import yago.ferreira.marketapi.domain.request.RegisterRequest;
 import yago.ferreira.marketapi.domain.response.FileResponse;
 import yago.ferreira.marketapi.infra.config.exceptions.EmailAlreadyExistsException;
-import yago.ferreira.marketapi.adapters.out.repository.UsuarioRepository;
+import yago.ferreira.marketapi.adapters.out.repository.JpaUsuarioRepository;
 import yago.ferreira.marketapi.application.service.file.FileService;
 
 @Service
 public class UsuarioService {
 
-    private final UsuarioRepository usuarioRepository;
+    private final JpaUsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
     private final FileService fileService;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper, FileService fileService) {
+    public UsuarioService(JpaUsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper, FileService fileService) {
         this.usuarioRepository = usuarioRepository;
         this.usuarioMapper = usuarioMapper;
         this.fileService = fileService;

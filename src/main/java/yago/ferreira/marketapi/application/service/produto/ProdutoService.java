@@ -14,7 +14,7 @@ import yago.ferreira.marketapi.domain.dto.ProdutoDTO;
 import yago.ferreira.marketapi.utils.mapper.ProdutoMapper;
 import yago.ferreira.marketapi.domain.response.FileResponse;
 import yago.ferreira.marketapi.infra.config.exceptions.RecordNotFoundException;
-import yago.ferreira.marketapi.adapters.out.repository.ProdutoRepository;
+import yago.ferreira.marketapi.adapters.out.repository.JpaProdutoRepository;
 import yago.ferreira.marketapi.application.service.file.FileService;
 import yago.ferreira.marketapi.application.service.usuario.UsuarioService;
 
@@ -24,12 +24,12 @@ import java.util.stream.Collectors;
 @Service
 public class ProdutoService {
 
-    private final ProdutoRepository produtoRepository;
+    private final JpaProdutoRepository produtoRepository;
     private final UsuarioService usuarioService;
     private final FileService fileService;
     private final ProdutoMapper produtoMapper;
 
-    public ProdutoService(ProdutoRepository produtoRepository, UsuarioService usuarioService, FileService fileService, ProdutoMapper produtoMapper) {
+    public ProdutoService(JpaProdutoRepository produtoRepository, UsuarioService usuarioService, FileService fileService, ProdutoMapper produtoMapper) {
         this.produtoRepository = produtoRepository;
         this.usuarioService = usuarioService;
         this.fileService = fileService;

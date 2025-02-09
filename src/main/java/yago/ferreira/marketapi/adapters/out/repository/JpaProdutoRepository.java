@@ -5,9 +5,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import yago.ferreira.marketapi.domain.entity.Produto;
+import yago.ferreira.marketapi.adapters.out.entities.JpaProduto;
 
 @Repository
-public interface ProdutoRepository extends JpaRepository<Produto, Long> {
-    Page<Produto> findAllByUsuarioEmail(@Param("email") String email, Pageable pageable);
+public interface JpaProdutoRepository extends JpaRepository<JpaProduto, Long> {
+    Page<JpaProduto> findAllByUsuarioEmail(@Param("email") String email, Pageable pageable);
 }

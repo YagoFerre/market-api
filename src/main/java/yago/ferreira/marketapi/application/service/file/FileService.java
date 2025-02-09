@@ -3,7 +3,7 @@ package yago.ferreira.marketapi.application.service.file;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import yago.ferreira.marketapi.utils.storage.FileStorageProperties;
+import yago.ferreira.marketapi.infra.config.storage.FileStorageProperties;
 import yago.ferreira.marketapi.domain.response.FileResponse;
 
 import java.io.IOException;

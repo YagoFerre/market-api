@@ -1,18 +1,10 @@
 package yago.ferreira.marketapi.domain.entity;
 
-import jakarta.persistence.*;
-
-@Entity
 public class File {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private String filePath;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "produto_id", nullable = false)
     private Produto produto;
 
     public File() {

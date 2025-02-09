@@ -4,14 +4,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import yago.ferreira.marketapi.adapters.out.repository.UsuarioRepository;
+import yago.ferreira.marketapi.adapters.out.repository.JpaUsuarioRepository;
 
 @Service
 public class AuthorizationService implements UserDetailsService {
 
-    private final UsuarioRepository usuarioRepository;
+    private final JpaUsuarioRepository usuarioRepository;
 
-    public AuthorizationService(UsuarioRepository usuarioRepository) {
+    public AuthorizationService(JpaUsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
 

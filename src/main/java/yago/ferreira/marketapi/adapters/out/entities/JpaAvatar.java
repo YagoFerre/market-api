@@ -1,16 +1,24 @@
-package yago.ferreira.marketapi.domain.entity;
+package yago.ferreira.marketapi.adapters.out.entities;
 
-public class Avatar {
+import jakarta.persistence.*;
 
+@Entity
+public class JpaAvatar {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private String filePath;
-    private Usuario usuario;
 
-    public Avatar() {
+    @OneToOne
+    @JoinColumn(name = "usuario_id")
+    private JpaUsuario usuario;
+
+    public JpaAvatar() {
     }
 
-    public Avatar(Long id, String nome, String filePath, Usuario usuario) {
+    public JpaAvatar(Long id, String nome, String filePath, JpaUsuario usuario) {
         this.id = id;
         this.nome = nome;
         this.filePath = filePath;
@@ -41,11 +49,11 @@ public class Avatar {
         this.filePath = filePath;
     }
 
-    public Usuario getUsuario() {
+    public JpaUsuario getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario) {
+    public void setUsuario(JpaUsuario usuario) {
         this.usuario = usuario;
     }
 

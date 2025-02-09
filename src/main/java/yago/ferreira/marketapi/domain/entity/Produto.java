@@ -1,46 +1,17 @@
 package yago.ferreira.marketapi.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SQLRestriction;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@SQLDelete(sql = "UPDATE produto SET ativo = false WHERE id = ?")
-@SQLRestriction("ativo = true")
 public class Produto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotBlank
-    @NotNull
-    @Column(nullable = false, length = 100)
     private String titulo;
-
-    @NotBlank
-    @NotNull
     private String descricao;
-
-    @NotNull
     private BigDecimal preco;
-
-    @NotNull
     private Boolean ativo = true;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
-
-    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("produto")
     private List<File> produtoImagem = new ArrayList<>();
 
     public Produto() {
