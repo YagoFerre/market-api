@@ -6,15 +6,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import yago.ferreira.marketapi.adapters.in.controller.dto.UsuarioDTO;
 import yago.ferreira.marketapi.adapters.in.controller.dto.request.RegisterRequest;
-import yago.ferreira.marketapi.application.service.usuario.UsuarioService;
+import yago.ferreira.marketapi.application.service.usuario.UsuarioServiceImpl;
 
 @RestController
 @RequestMapping("api/v1/usuario")
 public class UsuarioController {
 
-    private final UsuarioService usuarioService;
+    private final UsuarioServiceImpl usuarioService;
 
-    public UsuarioController(UsuarioService usuarioService) {
+    public UsuarioController(UsuarioServiceImpl usuarioService) {
         this.usuarioService = usuarioService;
     }
 
