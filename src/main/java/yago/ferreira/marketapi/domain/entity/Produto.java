@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Produto {
-
     private Long id;
     private String titulo;
     private String descricao;
@@ -82,5 +81,4 @@ public class Produto {
     public void setProdutoImagem(List<File> produtoImagem) {
         this.produtoImagem = produtoImagem;
     }
-
 }

@@ -1,7 +1,7 @@
 package yago.ferreira.marketapi.domain.repository;
 
 import yago.ferreira.marketapi.domain.entity.Produto;
-import yago.ferreira.marketapi.domain.response.PageResponse;
+import yago.ferreira.marketapi.application.response.PageResponse;
 
 import java.util.Optional;
 

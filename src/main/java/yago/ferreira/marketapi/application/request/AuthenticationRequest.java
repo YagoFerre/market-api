@@ -1,4 +1,4 @@
-package yago.ferreira.marketapi.domain.request;
+package yago.ferreira.marketapi.application.request;
 
 public class AuthenticationRequest {
     private String email;

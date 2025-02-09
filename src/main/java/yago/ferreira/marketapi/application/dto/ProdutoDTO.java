@@ -1,4 +1,4 @@
-package yago.ferreira.marketapi.domain.dto;
+package yago.ferreira.marketapi.application.dto;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;

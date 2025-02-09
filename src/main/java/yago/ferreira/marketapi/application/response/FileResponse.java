@@ -1,7 +1,6 @@
-package yago.ferreira.marketapi.domain.response;
+package yago.ferreira.marketapi.application.response;
 
 public class FileResponse {
-
     private String fileName;
     private String filePath;
 
@@ -28,5 +27,4 @@ public class FileResponse {
     public void setFilePath(String filePath) {
         this.filePath = filePath;
     }
-
 }

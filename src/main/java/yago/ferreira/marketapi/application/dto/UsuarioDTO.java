@@ -1,4 +1,4 @@
-package yago.ferreira.marketapi.domain.dto;
+package yago.ferreira.marketapi.application.dto;
 
 public class UsuarioDTO {
 

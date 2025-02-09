@@ -1,7 +1,6 @@
 package yago.ferreira.marketapi.domain.entity;
 
 public class Avatar {
-
     private Long id;
     private String nome;
     private String filePath;
@@ -48,5 +47,4 @@ public class Avatar {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
 }

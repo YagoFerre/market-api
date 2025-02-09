@@ -1,7 +1,6 @@
 package yago.ferreira.marketapi.domain.entity;
 
 public class Usuario implements DomainUserDetails {
-
     private Long id;
     private String email;
     private String nome;
@@ -88,5 +87,4 @@ public class Usuario implements DomainUserDetails {
     public boolean isEnabled() {
         return false;
     }
-
 }

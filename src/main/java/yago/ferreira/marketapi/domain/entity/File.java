@@ -1,7 +1,6 @@
 package yago.ferreira.marketapi.domain.entity;
 
 public class File {
-
     private Long id;
     private String nome;
     private String filePath;
@@ -48,5 +47,4 @@ public class File {
     public void setProduto(Produto produto) {
         this.produto = produto;
     }
-
 }

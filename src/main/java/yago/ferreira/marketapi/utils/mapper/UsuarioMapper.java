@@ -3,7 +3,7 @@ package yago.ferreira.marketapi.utils.mapper;
 import org.mapstruct.Mapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import yago.ferreira.marketapi.adapters.out.entities.JpaUsuario;
-import yago.ferreira.marketapi.domain.dto.UsuarioDTO;
+import yago.ferreira.marketapi.application.dto.UsuarioDTO;
 import yago.ferreira.marketapi.domain.entity.DomainUserDetails;
 import yago.ferreira.marketapi.domain.entity.Usuario;
 

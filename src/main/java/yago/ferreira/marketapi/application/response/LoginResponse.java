@@ -1,4 +1,4 @@
-package yago.ferreira.marketapi.domain.response;
+package yago.ferreira.marketapi.application.response;
 
 public class LoginResponse {
     private String token;

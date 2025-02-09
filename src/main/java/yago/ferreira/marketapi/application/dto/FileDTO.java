@@ -1,7 +1,6 @@
-package yago.ferreira.marketapi.domain.dto;
+package yago.ferreira.marketapi.application.dto;
 
 public class FileDTO {
-
     private Long id;
     private String nome;
     private String filePath;
@@ -38,5 +37,4 @@ public class FileDTO {
     public void setFilePath(String filePath) {
         this.filePath = filePath;
     }
-
 }
