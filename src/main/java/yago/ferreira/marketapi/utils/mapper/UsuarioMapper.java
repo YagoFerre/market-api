@@ -14,9 +14,9 @@ public interface UsuarioMapper {
 
     UsuarioDTO toDto(JpaUsuario jpaUsuario);
 
-    JpaUsuario toJpaEntity(Usuario usuario);
+    JpaUsuario toJpaEntity(Usuario domainObj);
 
-    Usuario toDomainEntity(JpaUsuario jpaUsuario);
+    Usuario toDomainEntity(JpaUsuario jpaEntity);
 
     DomainUserDetails toDomainUserDetails(UserDetails userDetails);
 

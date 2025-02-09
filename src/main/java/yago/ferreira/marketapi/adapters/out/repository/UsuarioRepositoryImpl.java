@@ -17,8 +17,8 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
     }
 
     @Override
-    public Usuario save(Usuario entity) {
-        JpaUsuario jpaEntity = usuarioMapper.toJpaEntity(entity);
+    public Usuario save(Usuario domainObj) {
+        JpaUsuario jpaEntity = usuarioMapper.toJpaEntity(domainObj);
         return usuarioMapper.toDomainEntity(jpaUsuarioRepository.save(jpaEntity));
     }
 
