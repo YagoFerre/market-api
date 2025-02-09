@@ -1,4 +1,4 @@
-package yago.ferreira.marketapi.adapters.in.controller.request;
+package yago.ferreira.marketapi.adapters.in.controller.dto.request;
 
 public class RegisterRequest {
     private String email;

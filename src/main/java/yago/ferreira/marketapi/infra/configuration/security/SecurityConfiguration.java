@@ -1,4 +1,4 @@
-package yago.ferreira.marketapi.infra.config.security;
+package yago.ferreira.marketapi.infra.configuration.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

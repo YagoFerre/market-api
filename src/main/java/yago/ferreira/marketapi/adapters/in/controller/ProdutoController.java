@@ -9,7 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import yago.ferreira.marketapi.adapters.in.controller.dto.ProdutoDTO;
-import yago.ferreira.marketapi.adapters.in.controller.response.PageResponse;
+import yago.ferreira.marketapi.adapters.in.controller.dto.response.PageResponse;
 import yago.ferreira.marketapi.application.service.produto.ProdutoService;
 
 import java.util.List;

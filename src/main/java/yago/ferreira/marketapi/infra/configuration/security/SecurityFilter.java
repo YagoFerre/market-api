@@ -1,4 +1,4 @@
-package yago.ferreira.marketapi.infra.config.security;
+package yago.ferreira.marketapi.infra.configuration.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import yago.ferreira.marketapi.adapters.in.controller.dto.UsuarioDTO;
-import yago.ferreira.marketapi.adapters.in.controller.request.RegisterRequest;
+import yago.ferreira.marketapi.adapters.in.controller.dto.request.RegisterRequest;
 import yago.ferreira.marketapi.application.service.usuario.UsuarioService;
 
 @RestController

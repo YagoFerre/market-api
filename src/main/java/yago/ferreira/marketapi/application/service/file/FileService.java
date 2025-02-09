@@ -3,8 +3,8 @@ package yago.ferreira.marketapi.application.service.file;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import yago.ferreira.marketapi.infra.config.storage.FileStorageProperties;
-import yago.ferreira.marketapi.adapters.in.controller.response.FileResponse;
+import yago.ferreira.marketapi.infra.configuration.storage.FileStorageProperties;
+import yago.ferreira.marketapi.adapters.in.controller.dto.response.FileResponse;
 
 import java.io.IOException;
 import java.nio.file.Files;

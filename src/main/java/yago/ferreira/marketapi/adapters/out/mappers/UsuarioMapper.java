@@ -1,4 +1,4 @@
-package yago.ferreira.marketapi.utils.mapper;
+package yago.ferreira.marketapi.adapters.out.mappers;
 
 import org.mapstruct.Mapper;
 import org.springframework.security.core.userdetails.UserDetails;

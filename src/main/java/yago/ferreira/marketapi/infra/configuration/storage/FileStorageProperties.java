@@ -1,4 +1,4 @@
-package yago.ferreira.marketapi.infra.config.storage;
+package yago.ferreira.marketapi.infra.configuration.storage;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
