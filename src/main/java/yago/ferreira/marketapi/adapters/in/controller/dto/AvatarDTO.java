@@ -1,14 +1,14 @@
-package yago.ferreira.marketapi.application.dto;
+package yago.ferreira.marketapi.adapters.in.controller.dto;
 
-public class FileDTO {
+public class AvatarDTO {
     private Long id;
     private String nome;
     private String filePath;
 
-    public FileDTO() {
+    public AvatarDTO() {
     }
 
-    public FileDTO(Long id, String nome, String filePath) {
+    public AvatarDTO(Long id, String nome, String filePath) {
         this.id = id;
         this.nome = nome;
         this.filePath = filePath;

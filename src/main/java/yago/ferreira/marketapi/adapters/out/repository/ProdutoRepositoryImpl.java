@@ -4,9 +4,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import yago.ferreira.marketapi.adapters.out.entities.JpaProduto;
-import yago.ferreira.marketapi.domain.entity.Produto;
-import yago.ferreira.marketapi.domain.repository.ProdutoRepository;
-import yago.ferreira.marketapi.application.response.PageResponse;
+import yago.ferreira.marketapi.domain.model.Produto;
+import yago.ferreira.marketapi.domain.port.out.repository.ProdutoRepository;
+import yago.ferreira.marketapi.adapters.in.controller.response.PageResponse;
 import yago.ferreira.marketapi.utils.mapper.ProdutoMapper;
 
 import java.util.Optional;

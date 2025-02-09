@@ -1,4 +1,4 @@
-package yago.ferreira.marketapi.domain.entity;
+package yago.ferreira.marketapi.domain.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package yago.ferreira.marketapi.domain.entity;
+package yago.ferreira.marketapi.domain.model;
 
 public class Usuario implements DomainUserDetails {
     private Long id;

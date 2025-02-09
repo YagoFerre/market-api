@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import yago.ferreira.marketapi.domain.entity.Usuario;
+import yago.ferreira.marketapi.domain.model.Usuario;
 
 import java.util.Collection;
 import java.util.List;

@@ -1,4 +1,4 @@
-package yago.ferreira.marketapi.application.response;
+package yago.ferreira.marketapi.adapters.in.controller.response;
 
 import java.util.List;
 

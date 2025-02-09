@@ -1,17 +1,19 @@
-package yago.ferreira.marketapi.application.dto;
+package yago.ferreira.marketapi.domain.model;
 
-public class AvatarDTO {
+public class Avatar {
     private Long id;
     private String nome;
     private String filePath;
+    private Usuario usuario;
 
-    public AvatarDTO() {
+    public Avatar() {
     }
 
-    public AvatarDTO(Long id, String nome, String filePath) {
+    public Avatar(Long id, String nome, String filePath, Usuario usuario) {
         this.id = id;
         this.nome = nome;
         this.filePath = filePath;
+        this.usuario = usuario;
     }
 
     public Long getId() {
@@ -36,5 +38,13 @@ public class AvatarDTO {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

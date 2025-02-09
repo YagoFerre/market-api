@@ -2,9 +2,9 @@ package yago.ferreira.marketapi.adapters.out.repository;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import yago.ferreira.marketapi.adapters.out.entities.JpaUsuario;
-import yago.ferreira.marketapi.domain.entity.DomainUserDetails;
-import yago.ferreira.marketapi.domain.entity.Usuario;
-import yago.ferreira.marketapi.domain.repository.UsuarioRepository;
+import yago.ferreira.marketapi.domain.model.DomainUserDetails;
+import yago.ferreira.marketapi.domain.model.Usuario;
+import yago.ferreira.marketapi.domain.port.out.repository.UsuarioRepository;
 import yago.ferreira.marketapi.utils.mapper.UsuarioMapper;
 
 public class UsuarioRepositoryImpl implements UsuarioRepository {

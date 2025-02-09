@@ -1,4 +1,4 @@
-package yago.ferreira.marketapi.infra.config.exceptions;
+package yago.ferreira.marketapi.domain.exceptions;
 
 public class RecordNotFoundException extends RuntimeException {
     public RecordNotFoundException(Long id) {

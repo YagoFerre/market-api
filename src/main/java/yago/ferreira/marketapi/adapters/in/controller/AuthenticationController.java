@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import yago.ferreira.marketapi.domain.entity.Usuario;
-import yago.ferreira.marketapi.application.request.AuthenticationRequest;
-import yago.ferreira.marketapi.application.response.LoginResponse;
+import yago.ferreira.marketapi.domain.model.Usuario;
+import yago.ferreira.marketapi.adapters.in.controller.request.AuthenticationRequest;
+import yago.ferreira.marketapi.adapters.in.controller.response.LoginResponse;
 import yago.ferreira.marketapi.application.service.security.TokenService;
 
 @RestController

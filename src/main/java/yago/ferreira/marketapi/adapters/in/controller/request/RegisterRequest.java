@@ -1,14 +1,16 @@
-package yago.ferreira.marketapi.application.request;
+package yago.ferreira.marketapi.adapters.in.controller.request;
 
-public class AuthenticationRequest {
+public class RegisterRequest {
     private String email;
+    private String nome;
     private String senha;
 
-    public AuthenticationRequest() {
+    public RegisterRequest() {
     }
 
-    public AuthenticationRequest(String email, String senha) {
+    public RegisterRequest(String email, String nome, String senha) {
         this.email = email;
+        this.nome = nome;
         this.senha = senha;
     }
 
@@ -18,6 +20,14 @@ public class AuthenticationRequest {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getSenha() {
