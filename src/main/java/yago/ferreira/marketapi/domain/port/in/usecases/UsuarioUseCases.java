@@ -6,6 +6,6 @@ import yago.ferreira.marketapi.domain.model.Usuario;
 
 public interface UsuarioUseCases {
     Usuario findUsuarioLogado(String email);
-    Usuario createUsuario(RegisterRequestDomain request, FileInput file);
-    Usuario updateUsuario(Usuario usuario, FileInput file);
+    Usuario createUsuario(RegisterRequestDomain domainObj, FileInput file);
+    Usuario updateUsuario(Usuario domainObj, FileInput file);
 }
