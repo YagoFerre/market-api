@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import yago.ferreira.marketapi.adapters.in.controller.dto.UsuarioDTO;
 import yago.ferreira.marketapi.adapters.in.controller.dto.request.RegisterRequest;
-import yago.ferreira.marketapi.adapters.in.controller.mappers.FileMapper;
+import yago.ferreira.marketapi.adapters.out.mappers.FileMapper;
 import yago.ferreira.marketapi.adapters.out.mappers.UsuarioMapper;
 import yago.ferreira.marketapi.application.service.usuario.UsuarioServiceImpl;
 import yago.ferreira.marketapi.domain.model.FileInput;

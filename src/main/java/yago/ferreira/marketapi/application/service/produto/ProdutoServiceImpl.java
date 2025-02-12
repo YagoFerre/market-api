@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import yago.ferreira.marketapi.adapters.in.controller.dto.response.FileResponse;
 import yago.ferreira.marketapi.adapters.in.controller.dto.response.PageResponse;
-import yago.ferreira.marketapi.adapters.in.controller.mappers.FileMapper;
+import yago.ferreira.marketapi.adapters.out.mappers.FileMapper;
 import yago.ferreira.marketapi.adapters.out.entities.JpaFile;
 import yago.ferreira.marketapi.adapters.out.entities.JpaProduto;
 import yago.ferreira.marketapi.adapters.out.mappers.ProdutoMapper;

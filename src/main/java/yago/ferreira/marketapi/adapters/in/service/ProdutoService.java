@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import yago.ferreira.marketapi.adapters.in.controller.dto.ProdutoDTO;
 import yago.ferreira.marketapi.adapters.in.controller.dto.response.PageResponse;
-import yago.ferreira.marketapi.adapters.in.controller.mappers.FileMapper;
+import yago.ferreira.marketapi.adapters.out.mappers.FileMapper;
 import yago.ferreira.marketapi.adapters.out.mappers.ProdutoMapper;
 import yago.ferreira.marketapi.application.service.produto.ProdutoServiceImpl;
 import yago.ferreira.marketapi.domain.model.FileInput;

@@ -1,4 +1,4 @@
-package yago.ferreira.marketapi.adapters.in.controller.mappers;
+package yago.ferreira.marketapi.adapters.out.mappers;
 
 import org.mapstruct.Mapper;
 import org.springframework.web.multipart.MultipartFile;

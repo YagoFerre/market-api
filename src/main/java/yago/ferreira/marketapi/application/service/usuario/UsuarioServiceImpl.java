@@ -7,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import yago.ferreira.marketapi.adapters.in.controller.dto.response.FileResponse;
-import yago.ferreira.marketapi.adapters.in.controller.mappers.FileMapper;
+import yago.ferreira.marketapi.adapters.out.mappers.FileMapper;
 import yago.ferreira.marketapi.adapters.out.entities.JpaAvatar;
 import yago.ferreira.marketapi.adapters.out.entities.JpaUsuario;
 import yago.ferreira.marketapi.adapters.out.mappers.UsuarioMapper;
