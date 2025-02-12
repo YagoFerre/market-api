@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import yago.ferreira.marketapi.adapters.in.controller.dto.ProdutoDTO;
 import yago.ferreira.marketapi.adapters.in.controller.dto.response.PageResponse;
-import yago.ferreira.marketapi.application.service.produto.ProdutoService;
+import yago.ferreira.marketapi.application.service.produto.ProdutoServiceImpl;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,9 +20,9 @@ import java.util.stream.Collectors;
 @RequestMapping("api/v1/produto")
 public class ProdutoController {
 
-    private final ProdutoService produtoService;
+    private final ProdutoServiceImpl produtoService;
 
-    public ProdutoController(ProdutoService produtoService) {
+    public ProdutoController(ProdutoServiceImpl produtoService) {
         this.produtoService = produtoService;
     }
 

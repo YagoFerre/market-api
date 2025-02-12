@@ -22,14 +22,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ProdutoService {
+public class ProdutoServiceImpl {
 
     private final JpaProdutoRepository produtoRepository;
     private final UsuarioServiceImpl usuarioService;
     private final FileService fileService;
     private final ProdutoMapper produtoMapper;
 
-    public ProdutoService(JpaProdutoRepository produtoRepository, UsuarioServiceImpl usuarioService, FileService fileService, ProdutoMapper produtoMapper) {
+    public ProdutoServiceImpl(JpaProdutoRepository produtoRepository, UsuarioServiceImpl usuarioService, FileService fileService, ProdutoMapper produtoMapper) {
         this.produtoRepository = produtoRepository;
         this.usuarioService = usuarioService;
         this.fileService = fileService;
