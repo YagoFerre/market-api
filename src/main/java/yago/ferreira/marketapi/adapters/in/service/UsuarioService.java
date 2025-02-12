@@ -1,5 +1,6 @@
 package yago.ferreira.marketapi.adapters.in.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import yago.ferreira.marketapi.adapters.in.controller.dto.UsuarioDTO;
@@ -24,6 +25,7 @@ public class UsuarioService {
         this.fileMapper = fileMapper;
     }
 
+    @Transactional
     public UsuarioDTO createUsuario(RegisterRequest request, MultipartFile multipartFile) {
         RegisterRequestDomain registerRequestDomain = usuarioMapper.toRegisterRequestDomain(request);
         FileInput fileInputDomain = fileMapper.toFileInputDomain(multipartFile);
@@ -31,6 +33,7 @@ public class UsuarioService {
         return usuarioMapper.toDto(usuarioDomain);
     }
 
+    @Transactional
     public UsuarioDTO updateUsuario(UsuarioDTO dto, MultipartFile multipartFile) {
         Usuario usuarioDomain = usuarioMapper.toUsuarioDomain(dto);
         FileInput fileInputDomain = fileMapper.toFileInputDomain(multipartFile);

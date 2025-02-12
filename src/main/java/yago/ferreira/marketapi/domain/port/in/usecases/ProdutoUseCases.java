@@ -9,8 +9,8 @@ import java.util.List;
 public interface ProdutoUseCases {
     PageResponse<Produto> executeListarProdutos(int pagina, int itens);
     PageResponse<Produto> executeListarProdutosUsuario(int pagina, int itens);
-    Produto executeCriarProduto(Produto Produto, List<FileInput> imagens);
-    Produto executeAtualizarProduto(Long id, Produto Produto, List<FileInput> imagens);
+    Produto executeCriarProduto(Produto produto, List<FileInput> imagens);
+    Produto executeAtualizarProduto(Long id, Produto produto, List<FileInput> imagens);
     void executeDeletarProduto(Long id);
     Produto executeListProdutoById(Long id);
 }

@@ -10,13 +10,15 @@ import yago.ferreira.marketapi.adapters.in.controller.dto.response.PageResponse;
 @Mapper(componentModel = "spring")
 public interface ProdutoMapper {
 
-    ProdutoDTO toDto(JpaProduto jpaEntity);
+    ProdutoDTO toDto(Produto produto);
 
-    Produto toEntity(ProdutoDTO produtoDTO);
+    Produto toDomainEntity(ProdutoDTO produtoDTO);
 
     JpaProduto toJpaEntity(Produto domainObj);
 
     Produto toDomain(JpaProduto jpaEntity);
 
     PageResponse<Produto> toPageResponse(Page<JpaProduto> jpaEntity);
+
+    Page<ProdutoDTO> toPageDTO(PageResponse<Produto> produtoPageResponse);
 }
