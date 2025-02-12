@@ -1,6 +1,7 @@
 package yago.ferreira.marketapi.adapters.out.mappers;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Page;
 import yago.ferreira.marketapi.adapters.out.entities.JpaProduto;
 import yago.ferreira.marketapi.adapters.in.controller.dto.ProdutoDTO;
@@ -9,6 +10,7 @@ import yago.ferreira.marketapi.adapters.in.controller.dto.response.PageResponse;
 
 @Mapper(componentModel = "spring")
 public interface ProdutoMapper {
+    ProdutoMapper INSTANCE = Mappers.getMapper(ProdutoMapper.class);
 
     ProdutoDTO toDto(Produto produto);
 

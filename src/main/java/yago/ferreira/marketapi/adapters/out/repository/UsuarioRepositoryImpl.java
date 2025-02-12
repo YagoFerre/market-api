@@ -1,11 +1,9 @@
 package yago.ferreira.marketapi.adapters.out.repository;
 
-import org.springframework.security.core.userdetails.UserDetails;
 import yago.ferreira.marketapi.adapters.out.entities.JpaUsuario;
-import yago.ferreira.marketapi.domain.model.DomainUserDetails;
+import yago.ferreira.marketapi.adapters.out.mappers.UsuarioMapper;
 import yago.ferreira.marketapi.domain.model.Usuario;
 import yago.ferreira.marketapi.domain.port.out.repository.UsuarioRepository;
-import yago.ferreira.marketapi.adapters.out.mappers.UsuarioMapper;
 
 public class UsuarioRepositoryImpl implements UsuarioRepository {
     private final JpaUsuarioRepository jpaUsuarioRepository;
@@ -23,9 +21,9 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
     }
 
     @Override
-    public DomainUserDetails findByEmail(String email) {
-        UserDetails userDetailsSpring = jpaUsuarioRepository.findByEmail(email);
-        return usuarioMapper.toDomainUserDetails(userDetailsSpring);
+    public Usuario findByEmail(String email) {
+        JpaUsuario jpaEntity = jpaUsuarioRepository.findByEmail(email);
+        return usuarioMapper.toDomainEntity(jpaEntity);
     }
 
     @Override

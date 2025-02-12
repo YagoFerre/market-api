@@ -9,14 +9,14 @@ import yago.ferreira.marketapi.adapters.out.repository.JpaUsuarioRepository;
 @Service
 public class AuthorizationService implements UserDetailsService {
 
-    private final JpaUsuarioRepository usuarioRepository;
+    private final JpaUsuarioRepository jpaUsuarioRepository;
 
-    public AuthorizationService(JpaUsuarioRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
+    public AuthorizationService(JpaUsuarioRepository jpaUsuarioRepository) {
+        this.jpaUsuarioRepository = jpaUsuarioRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return usuarioRepository.findByEmail(username);
+        return jpaUsuarioRepository.findByEmail(username);
     }
 }
