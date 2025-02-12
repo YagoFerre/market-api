@@ -4,10 +4,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import yago.ferreira.marketapi.adapters.in.controller.dto.UsuarioDTO;
-import yago.ferreira.marketapi.adapters.in.controller.dto.request.RegisterRequest;
 import yago.ferreira.marketapi.adapters.in.controller.dto.response.FileResponse;
 import yago.ferreira.marketapi.adapters.in.controller.mappers.FileMapper;
 import yago.ferreira.marketapi.adapters.out.entities.JpaAvatar;
@@ -21,7 +19,7 @@ import yago.ferreira.marketapi.domain.model.RegisterRequestDomain;
 import yago.ferreira.marketapi.domain.model.Usuario;
 import yago.ferreira.marketapi.domain.port.in.usecases.UsuarioUseCases;
 
-@Service
+@Component
 public class UsuarioServiceImpl implements UsuarioUseCases {
 
     private final JpaUsuarioRepository jpaUsuarioRepository;
@@ -37,23 +35,22 @@ public class UsuarioServiceImpl implements UsuarioUseCases {
     }
 
     @Override
-    public Usuario findUsuarioLogado(String email) {
+    public Usuario executeFindUsuarioLogado(String email) {
         return usuarioMapper.toDomainEntity(jpaUsuarioRepository.findUsuarioByEmail(email));
     }
 
     @Override
-    public Usuario createUsuario(RegisterRequestDomain domainObj, FileInput fileDomain) {
-        RegisterRequest request = usuarioMapper.toRegisterRequestEntity(domainObj);
+    public Usuario executeCreateUsuario(RegisterRequestDomain domainObj, FileInput fileDomain) {
         MultipartFile file = fileMapper.toMultipartFile(fileDomain);
 
-        UserDetails usuarioExistente = jpaUsuarioRepository.findByEmail(request.getEmail());
+        UserDetails usuarioExistente = jpaUsuarioRepository.findByEmail(domainObj.getEmail());
 
         if (usuarioExistente != null) {
             throw new EmailAlreadyExistsException();
         }
 
-        JpaUsuario jpaUsuario = usuarioMapper.registerToUser(request);
-        String senhaEncrypted = new BCryptPasswordEncoder().encode(request.getSenha());
+        JpaUsuario jpaUsuario = usuarioMapper.registerToUser(domainObj);
+        String senhaEncrypted = new BCryptPasswordEncoder().encode(domainObj.getSenha());
 
         jpaUsuario.setSenha(senhaEncrypted);
 
@@ -65,20 +62,17 @@ public class UsuarioServiceImpl implements UsuarioUseCases {
     }
 
     @Override
-    public Usuario updateUsuario(Usuario usuarioDomain, FileInput fileDomain) {
-        UsuarioDTO usuarioDTO = usuarioMapper.domainToDto(usuarioDomain);
-        MultipartFile file = fileMapper.toMultipartFile(fileDomain);
-
+    public Usuario executeUpdateUsuario(Usuario usuarioDomain, FileInput fileDomain) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = ((Usuario) auth.getPrincipal()).getEmail();
 
         JpaUsuario usuarioAtualJpa = jpaUsuarioRepository.findUsuarioByEmail(email);
 
-        usuarioAtualJpa.setNome(usuarioDTO.getNome());
-        usuarioAtualJpa.setEmail(usuarioDTO.getEmail());
+        usuarioAtualJpa.setNome(usuarioDomain.getNome());
+        usuarioAtualJpa.setEmail(usuarioDomain.getEmail());
 
-        if (file != null) {
-            usuarioAtualJpa.setAvatar(getAvatarAtualizado(file, usuarioAtualJpa));
+        if (fileDomain != null) {
+            usuarioAtualJpa.setAvatar(getAvatarAtualizado(fileMapper.toMultipartFile(fileDomain), usuarioAtualJpa));
         }
 
         return usuarioMapper.toDomainEntity(jpaUsuarioRepository.save(usuarioAtualJpa));

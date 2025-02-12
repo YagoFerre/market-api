@@ -7,4 +7,5 @@ import yago.ferreira.marketapi.domain.model.FileInput;
 @Mapper(componentModel = "spring")
 public interface FileMapper {
     MultipartFile toMultipartFile(FileInput objModel);
+    FileInput toFileInputDomain(MultipartFile objModel);
 }

@@ -12,20 +12,24 @@ import yago.ferreira.marketapi.domain.model.Usuario;
 @Mapper(componentModel = "spring")
 public interface UsuarioMapper {
 
-    JpaUsuario toJpa(UsuarioDTO usuarioDTO);
-
-    UsuarioDTO toDto(JpaUsuario jpaUsuario);
+    UsuarioDTO toDto(Usuario domainObj);
 
     UsuarioDTO domainToDto(Usuario domainObj);
 
+    Usuario toDomainEntity(JpaUsuario jpaEntity);
+
+    Usuario toUsuarioDomain(UsuarioDTO dto);
+
+    RegisterRequestDomain toRegisterRequestDomain(RegisterRequest request);
+
     JpaUsuario toJpaEntity(Usuario domainObj);
 
-    Usuario toDomainEntity(JpaUsuario jpaEntity);
+    JpaUsuario toJpa(UsuarioDTO usuarioDTO);
+
+    JpaUsuario registerToUser(RegisterRequestDomain domainObj);
 
     DomainUserDetails toDomainUserDetails(UserDetails userDetails);
 
     RegisterRequest toRegisterRequestEntity(RegisterRequestDomain domainObj);
-
-    JpaUsuario registerToUser(RegisterRequest request);
 
 }
