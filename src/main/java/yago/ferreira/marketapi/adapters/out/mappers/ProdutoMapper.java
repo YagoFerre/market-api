@@ -25,6 +25,7 @@ public interface ProdutoMapper {
 
     Produto toDomain(JpaProduto jpaEntity);
 
+    // @Todo o erro de build talvez seja pelo nome dos atributos
     PageResponse<Produto> toPageResponse(Page<JpaProduto> jpaEntity);
 
     default Page<ProdutoDTO> toPageDTO(PageResponse<Produto> page) {
