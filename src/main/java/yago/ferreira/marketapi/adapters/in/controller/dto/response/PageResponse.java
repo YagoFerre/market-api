@@ -1,18 +1,19 @@
 package yago.ferreira.marketapi.adapters.in.controller.dto.response;
 
 import java.util.List;
+import java.util.stream.DoubleStream;
 
 public class PageResponse<T> {
     private List<T> content;
     private int page;
     private int size;
-    private int totalPages;
-    private Long totalElements;
+    private long totalPages;
+    private long totalElements;
 
     public PageResponse() {
     }
 
-    public PageResponse(List<T> content, int page, int size, int totalPages, Long totalElements) {
+    public PageResponse(List<T> content, int page, int size, long totalPages, long totalElements) {
         this.content = content;
         this.page = page;
         this.size = size;
@@ -44,19 +45,23 @@ public class PageResponse<T> {
         this.size = size;
     }
 
-    public int getTotalPages() {
+    public long getTotalPages() {
         return totalPages;
     }
 
-    public void setTotalPages(int totalPages) {
+    public void setTotalPages(long totalPages) {
         this.totalPages = totalPages;
     }
 
-    public Long getTotalElements() {
+    public long getTotalElements() {
         return totalElements;
     }
 
-    public void setTotalElements(Long totalElements) {
+    public void setTotalElements(long totalElements) {
         this.totalElements = totalElements;
+    }
+
+    public DoubleStream stream() {
+        return null;
     }
 }

@@ -28,13 +28,12 @@ public class ProdutoService {
     }
 
     public Page<ProdutoDTO> listarProdutos(int pagina, int itens) {
-        PageResponse<Produto> produtoPageResponse = produtoServiceImpl.executeListarProdutos(pagina, itens);
-        return produtoMapper.toPageDTO(produtoPageResponse);
+        PageResponse<Produto> produto = produtoServiceImpl.executeListarProdutos(pagina, itens);
+        return produtoMapper.toPageDTO(produto);
     }
 
     public Page<ProdutoDTO> listarProdutosUsuario(int pagina, int itens) {
-        PageResponse<Produto> produtoPageResponse = produtoServiceImpl.executeListarProdutosUsuario(pagina, itens);
-        return produtoMapper.toPageDTO(produtoPageResponse);
+        return produtoMapper.toPageDTO(produtoServiceImpl.executeListarProdutosUsuario(pagina, itens));
     }
 
     @Transactional

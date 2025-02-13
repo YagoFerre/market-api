@@ -2,17 +2,45 @@ package yago.ferreira.marketapi.adapters.out.mappers;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 import yago.ferreira.marketapi.domain.model.FileInput;
 
+import java.io.IOException;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface FileMapper {
     FileMapper INSTANCE = Mappers.getMapper(FileMapper.class);
 
-    MultipartFile toMultipartFile(FileInput fileInput);
-    FileInput toFileInputDomain(MultipartFile multipartFile);
-    List<MultipartFile> toMultipartFileList(List<FileInput> fileInputList);
     List<FileInput> toFileInputDomainList(List<MultipartFile> multipartFileList);
+
+    default FileInput toFileInputDomain(MultipartFile multipartFile) {
+        if (multipartFile == null) {
+            return null;
+        }
+        FileInput fileInput = new FileInput();
+        fileInput.setName(multipartFile.getName());
+        fileInput.setOriginalFilename(multipartFile.getOriginalFilename());
+        fileInput.setContentType(multipartFile.getContentType());
+        try {
+            fileInput.setBytes(multipartFile.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException("Falha ao converter MultipartFile para FileInput", e);
+        }
+        return fileInput;
+    }
+
+    default MultipartFile toMultipartFile(FileInput fileInput) {
+        return new MockMultipartFile(
+                fileInput.getName(),
+                fileInput.getOriginalFilename(),
+                fileInput.getContentType(),
+                fileInput.getBytes()
+        );
+    }
+
+    default List<MultipartFile> toMultipartFileList(List<FileInput> fileInputList) {
+        return fileInputList.stream().map(this::toMultipartFile).toList();
+    }
 }

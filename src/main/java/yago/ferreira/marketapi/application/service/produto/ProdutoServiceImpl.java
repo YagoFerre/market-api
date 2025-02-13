@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import yago.ferreira.marketapi.adapters.in.controller.dto.response.FileResponse;
 import yago.ferreira.marketapi.adapters.in.controller.dto.response.PageResponse;
-import yago.ferreira.marketapi.adapters.out.mappers.FileMapper;
 import yago.ferreira.marketapi.adapters.out.entities.JpaFile;
 import yago.ferreira.marketapi.adapters.out.entities.JpaProduto;
+import yago.ferreira.marketapi.adapters.out.mappers.FileMapper;
 import yago.ferreira.marketapi.adapters.out.mappers.ProdutoMapper;
 import yago.ferreira.marketapi.adapters.out.repository.JpaProdutoRepository;
 import yago.ferreira.marketapi.application.service.file.FileService;
@@ -43,8 +43,7 @@ public class ProdutoServiceImpl implements ProdutoUseCases {
 
     @Override
     public PageResponse<Produto> executeListarProdutos(int pagina, int itens) {
-        Page<JpaProduto> produtos = jpaProdutoRepository.findAll(PageRequest.of(pagina, itens));
-        return produtoMapper.toPageResponse(produtos);
+        return produtoMapper.toPageResponse(jpaProdutoRepository.findAll(PageRequest.of(pagina, itens)));
     }
 
     @Override

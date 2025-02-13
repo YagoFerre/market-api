@@ -3,11 +3,11 @@ package yago.ferreira.marketapi.adapters.out.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import yago.ferreira.marketapi.adapters.in.controller.dto.response.PageResponse;
 import yago.ferreira.marketapi.adapters.out.entities.JpaProduto;
+import yago.ferreira.marketapi.adapters.out.mappers.ProdutoMapper;
 import yago.ferreira.marketapi.domain.model.Produto;
 import yago.ferreira.marketapi.domain.port.out.repository.ProdutoRepository;
-import yago.ferreira.marketapi.adapters.in.controller.dto.response.PageResponse;
-import yago.ferreira.marketapi.adapters.out.mappers.ProdutoMapper;
 
 import java.util.Optional;
 
