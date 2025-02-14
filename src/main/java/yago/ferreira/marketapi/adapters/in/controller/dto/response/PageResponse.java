@@ -1,7 +1,6 @@
 package yago.ferreira.marketapi.adapters.in.controller.dto.response;
 
 import java.util.List;
-import java.util.stream.DoubleStream;
 
 public class PageResponse<T> {
     private List<T> content;
@@ -59,9 +58,5 @@ public class PageResponse<T> {
 
     public void setTotalElements(long totalElements) {
         this.totalElements = totalElements;
-    }
-
-    public DoubleStream stream() {
-        return null;
     }
 }

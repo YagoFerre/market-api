@@ -6,7 +6,7 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import yago.ferreira.marketapi.domain.model.Usuario;
+import yago.ferreira.marketapi.adapters.out.entities.JpaUsuario;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -18,13 +18,13 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
-    public String generateToken(Usuario usuario) {
+    public String generateToken(JpaUsuario jpaUsuario) {
         try {
             Algorithm algorithm = Algorithm.HMAC256("secret");
 
             String token = JWT.create()
                     .withIssuer("market-api")
-                    .withSubject(usuario.getEmail())
+                    .withSubject(jpaUsuario.getEmail())
                     .withExpiresAt(generateExpirationDate())
                     .sign(algorithm);
 

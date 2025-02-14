@@ -1,7 +1,6 @@
 package yago.ferreira.marketapi.adapters.out.mappers;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 import yago.ferreira.marketapi.adapters.in.controller.dto.UsuarioDTO;
 import yago.ferreira.marketapi.adapters.in.controller.dto.request.RegisterRequest;
 import yago.ferreira.marketapi.adapters.out.entities.JpaUsuario;
@@ -10,7 +9,6 @@ import yago.ferreira.marketapi.domain.model.Usuario;
 
 @Mapper(componentModel = "spring")
 public interface UsuarioMapper {
-    UsuarioMapper INSTANCE = Mappers.getMapper(UsuarioMapper.class);
 
     UsuarioDTO toDto(Usuario domainObj);
 

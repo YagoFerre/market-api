@@ -1,15 +1,13 @@
 package yago.ferreira.marketapi.adapters.out.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import yago.ferreira.marketapi.domain.model.Usuario;
 
 import java.util.Collection;
 import java.util.List;
 
-@Entity
+@Entity(name = "usuario")
 public class JpaUsuario implements UserDetails {
 
     @Id
@@ -24,26 +22,18 @@ public class JpaUsuario implements UserDetails {
     @Column(nullable = false)
     private String senha;
 
-    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties("usuario")
-    private JpaAvatar avatar;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private JpaFile avatar;
 
     public JpaUsuario() {
     }
 
-    public JpaUsuario(Long id, String email, String nome, String senha, JpaAvatar avatar) {
+    public JpaUsuario(Long id, String email, String nome, String senha, JpaFile avatar) {
         this.id = id;
         this.email = email;
         this.nome = nome;
         this.senha = senha;
         this.avatar = avatar;
-    }
-
-    public JpaUsuario(Usuario usuario) {
-        this.id = usuario.getId();
-        this.email = usuario.getEmail();
-        this.nome = usuario.getNome();
-        this.senha = usuario.getSenha();
     }
 
     public Long getId() {
@@ -78,11 +68,11 @@ public class JpaUsuario implements UserDetails {
         this.senha = senha;
     }
 
-    public JpaAvatar getAvatar() {
+    public JpaFile getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(JpaAvatar avatar) {
+    public void setAvatar(JpaFile avatar) {
         this.avatar = avatar;
     }
 

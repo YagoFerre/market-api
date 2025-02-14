@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import yago.ferreira.marketapi.adapters.out.entities.JpaUsuario;
 import yago.ferreira.marketapi.domain.model.Usuario;
 import yago.ferreira.marketapi.adapters.in.controller.dto.request.AuthenticationRequest;
 import yago.ferreira.marketapi.adapters.in.controller.dto.response.LoginResponse;
@@ -29,7 +30,7 @@ public class AuthenticationController {
     public ResponseEntity<LoginResponse> login(@RequestBody @Valid AuthenticationRequest authenticationRequest) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getSenha());
         var auth = authenticationManager.authenticate(usernamePassword);
-        var token = tokenService.generateToken((Usuario) auth.getPrincipal());
+        var token = tokenService.generateToken((JpaUsuario) auth.getPrincipal());
 
         return ResponseEntity.ok(new LoginResponse(token));
     }

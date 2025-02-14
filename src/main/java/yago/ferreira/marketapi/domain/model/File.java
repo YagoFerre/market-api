@@ -4,16 +4,14 @@ public class File {
     private Long id;
     private String nome;
     private String filePath;
-    private Produto produto;
 
     public File() {
     }
 
-    public File(Long id, String nome, String filePath, Produto produto) {
+    public File(Long id, String nome, String filePath) {
         this.id = id;
         this.nome = nome;
         this.filePath = filePath;
-        this.produto = produto;
     }
 
     public Long getId() {
@@ -38,13 +36,5 @@ public class File {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
-    }
-
-    public Produto getProduto() {
-        return produto;
-    }
-
-    public void setProduto(Produto produto) {
-        this.produto = produto;
     }
 }

@@ -120,7 +120,6 @@ public class ProdutoServiceImpl implements ProdutoUseCases {
             JpaFile fileImage = new JpaFile();
             fileImage.setNome(fileResponse.getFileName());
             fileImage.setFilePath(fileResponse.getFilePath());
-            fileImage.setProduto(jpaProduto);
             return fileImage;
         }).collect(Collectors.toList());
     }

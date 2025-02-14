@@ -2,7 +2,7 @@ package yago.ferreira.marketapi.adapters.out.entities;
 
 import jakarta.persistence.*;
 
-@Entity
+@Entity(name = "file")
 public class JpaFile {
 
     @Id
@@ -11,18 +11,13 @@ public class JpaFile {
     private String nome;
     private String filePath;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "produto_id", nullable = false)
-    private JpaProduto produto;
-
     public JpaFile() {
     }
 
-    public JpaFile(Long id, String nome, String filePath, JpaProduto produto) {
+    public JpaFile(Long id, String nome, String filePath) {
         this.id = id;
         this.nome = nome;
         this.filePath = filePath;
-        this.produto = produto;
     }
 
     public Long getId() {
@@ -47,14 +42,6 @@ public class JpaFile {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
-    }
-
-    public JpaProduto getProduto() {
-        return produto;
-    }
-
-    public void setProduto(JpaProduto produto) {
-        this.produto = produto;
     }
 
 }

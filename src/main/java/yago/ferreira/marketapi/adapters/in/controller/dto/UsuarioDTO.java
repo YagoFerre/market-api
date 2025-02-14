@@ -4,12 +4,12 @@ public class UsuarioDTO {
 
     private String email;
     private String nome;
-    private AvatarDTO avatar;
+    private FileDTO avatar;
 
     public UsuarioDTO() {
     }
 
-    public UsuarioDTO(String email, String nome, AvatarDTO avatar) {
+    public UsuarioDTO(String email, String nome, FileDTO avatar) {
         this.email = email;
         this.nome = nome;
         this.avatar = avatar;
@@ -31,11 +31,11 @@ public class UsuarioDTO {
         this.nome = nome;
     }
 
-    public AvatarDTO getAvatar() {
+    public FileDTO getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(AvatarDTO avatar) {
+    public void setAvatar(FileDTO avatar) {
         this.avatar = avatar;
     }
 

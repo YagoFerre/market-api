@@ -7,8 +7,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import yago.ferreira.marketapi.adapters.in.controller.dto.response.FileResponse;
+import yago.ferreira.marketapi.adapters.out.entities.JpaFile;
 import yago.ferreira.marketapi.adapters.out.mappers.FileMapper;
-import yago.ferreira.marketapi.adapters.out.entities.JpaAvatar;
 import yago.ferreira.marketapi.adapters.out.entities.JpaUsuario;
 import yago.ferreira.marketapi.adapters.out.mappers.UsuarioMapper;
 import yago.ferreira.marketapi.adapters.out.repository.JpaUsuarioRepository;
@@ -78,15 +78,15 @@ public class UsuarioServiceImpl implements UsuarioUseCases {
         return usuarioMapper.toDomainEntity(jpaUsuarioRepository.save(usuarioAtualJpa));
     }
 
-    private JpaAvatar getAvatarAtualizado(MultipartFile file, JpaUsuario jpaUsuario) {
+    private JpaFile getAvatarAtualizado(MultipartFile file, JpaUsuario jpaUsuario) {
         if (file.isEmpty()) {
-            jpaUsuario.setAvatar(new JpaAvatar());
+            jpaUsuario.setAvatar(new JpaFile());
             return null;
         }
 
         FileResponse fileResponse = fileService.storeAvatar(file);
 
-        JpaAvatar usuarioAvatar = new JpaAvatar();
+        JpaFile usuarioAvatar = new JpaFile();
 
         if (jpaUsuario.getAvatar() != null) {
             usuarioAvatar = jpaUsuario.getAvatar();
@@ -94,17 +94,15 @@ public class UsuarioServiceImpl implements UsuarioUseCases {
 
         usuarioAvatar.setNome(fileResponse.getFileName());
         usuarioAvatar.setFilePath(fileResponse.getFilePath());
-        usuarioAvatar.setUsuario(jpaUsuario);
         return usuarioAvatar;
     }
 
-    private JpaAvatar getAvatar(MultipartFile file, JpaUsuario jpaUsuario) {
+    private JpaFile getAvatar(MultipartFile file, JpaUsuario jpaUsuario) {
         FileResponse fileResponse = fileService.storeAvatar(file);
 
-        JpaAvatar usuarioAvatar = new JpaAvatar();
+        JpaFile usuarioAvatar = new JpaFile();
         usuarioAvatar.setNome(fileResponse.getFileName());
         usuarioAvatar.setFilePath(fileResponse.getFilePath());
-        usuarioAvatar.setUsuario(jpaUsuario);
         return usuarioAvatar;
     }
 

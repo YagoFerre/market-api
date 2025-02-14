@@ -8,9 +8,7 @@ import yago.ferreira.marketapi.infra.configuration.storage.FileStorageProperties
 @SpringBootApplication
 @EnableConfigurationProperties(FileStorageProperties.class)
 public class MarketApiApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(MarketApiApplication.class, args);
     }
-
 }

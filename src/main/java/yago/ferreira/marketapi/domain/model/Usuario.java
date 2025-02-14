@@ -5,17 +5,15 @@ public class Usuario implements DomainUserDetails {
     private String email;
     private String nome;
     private String senha;
-    private Avatar avatar;
 
     public Usuario() {
     }
 
-    public Usuario(Long id, String email, String nome, String senha, Avatar avatar) {
+    public Usuario(Long id, String email, String nome, String senha) {
         this.id = id;
         this.email = email;
         this.nome = nome;
         this.senha = senha;
-        this.avatar = avatar;
     }
 
     public Long getId() {
@@ -48,14 +46,6 @@ public class Usuario implements DomainUserDetails {
 
     public void setSenha(String senha) {
         this.senha = senha;
-    }
-
-    public Avatar getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(Avatar avatar) {
-        this.avatar = avatar;
     }
 
     @Override
