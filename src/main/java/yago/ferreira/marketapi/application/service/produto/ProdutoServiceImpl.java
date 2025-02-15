@@ -10,6 +10,7 @@ import yago.ferreira.marketapi.adapters.in.controller.dto.response.FileResponse;
 import yago.ferreira.marketapi.adapters.in.controller.dto.response.PageResponse;
 import yago.ferreira.marketapi.adapters.out.entities.JpaFile;
 import yago.ferreira.marketapi.adapters.out.entities.JpaProduto;
+import yago.ferreira.marketapi.adapters.out.entities.JpaUsuario;
 import yago.ferreira.marketapi.adapters.out.mappers.FileMapper;
 import yago.ferreira.marketapi.adapters.out.mappers.ProdutoMapper;
 import yago.ferreira.marketapi.adapters.out.repository.JpaProdutoRepository;
@@ -58,15 +59,16 @@ public class ProdutoServiceImpl implements ProdutoUseCases {
     @Override
     public Produto executeCriarProduto(Produto produto, List<FileInput> imagens) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Usuario usuarioLogado = usuarioServiceImpl.executeFindUsuarioLogado(((Usuario) auth.getPrincipal()).getEmail());
+        Usuario usuarioLogado = usuarioServiceImpl.executeFindUsuarioLogado(((JpaUsuario) auth.getPrincipal()).getEmail());
 
         produto.setUsuario(usuarioLogado);
 
+        JpaProduto jpaProduto = produtoMapper.toJpaEntity(produto);
+
         if (imagens != null) {
-            salvarImagensDoProduto(produtoMapper.toJpaEntity(produto), fileMapper.toMultipartFileList(imagens));
+            salvarImagensDoProduto(jpaProduto, fileMapper.toMultipartFileList(imagens));
         }
 
-        JpaProduto jpaProduto = produtoMapper.toJpaEntity(produto);
         return produtoMapper.toDomain(jpaProdutoRepository.save(jpaProduto));
     }
 
@@ -103,17 +105,17 @@ public class ProdutoServiceImpl implements ProdutoUseCases {
     }
 
     private void salvarImagensDoProduto(JpaProduto jpaProduto, List<MultipartFile> imagens) {
-        List<JpaFile> produtoImagens = getProdutoImagens(imagens, jpaProduto);
+        List<JpaFile> produtoImagens = getProdutoImagens(imagens);
         jpaProduto.setProdutoImagem(produtoImagens);
     }
 
     private void atualizarImagensDoProduto(JpaProduto jpaProduto, List<MultipartFile> imagens) {
         jpaProduto.getProdutoImagem().clear();
-        List<JpaFile> produtoImagens = getProdutoImagens(imagens, jpaProduto);
+        List<JpaFile> produtoImagens = getProdutoImagens(imagens);
         jpaProduto.getProdutoImagem().addAll(produtoImagens);
     }
 
-    private List<JpaFile> getProdutoImagens(List<MultipartFile> files, JpaProduto jpaProduto) {
+    private List<JpaFile> getProdutoImagens(List<MultipartFile> files) {
         return files.stream().map(file -> {
             FileResponse fileResponse = fileService.storeFile(file);
 

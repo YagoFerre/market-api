@@ -7,6 +7,7 @@ import yago.ferreira.marketapi.domain.model.FileInput;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface FileMapper {
@@ -38,6 +39,6 @@ public interface FileMapper {
     }
 
     default List<MultipartFile> toMultipartFileList(List<FileInput> fileInputList) {
-        return fileInputList.stream().map(this::toMultipartFile).toList();
+        return fileInputList.stream().map(this::toMultipartFile).collect(Collectors.toList());
     }
 }

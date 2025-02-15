@@ -23,6 +23,7 @@ public class JpaUsuario implements UserDetails {
     private String senha;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "avatar_id")
     private JpaFile avatar;
 
     public JpaUsuario() {

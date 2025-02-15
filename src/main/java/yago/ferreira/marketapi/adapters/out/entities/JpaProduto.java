@@ -39,6 +39,7 @@ public class JpaProduto {
     private JpaUsuario usuario;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "produto_id")
     private List<JpaFile> produtoImagem = new ArrayList<>();
 
     public JpaProduto() {
