@@ -55,7 +55,7 @@ public class UsuarioServiceImpl implements UsuarioUseCases {
         jpaUsuario.setSenha(senhaEncrypted);
 
         if (file != null) {
-            jpaUsuario.setAvatar(getAvatar(file, jpaUsuario));
+            jpaUsuario.setAvatar(getAvatar(file));
         }
 
         return usuarioMapper.toDomainEntity(jpaUsuarioRepository.save(jpaUsuario));
@@ -64,7 +64,7 @@ public class UsuarioServiceImpl implements UsuarioUseCases {
     @Override
     public Usuario executeUpdateUsuario(Usuario usuarioDomain, FileInput fileDomain) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = ((Usuario) auth.getPrincipal()).getEmail();
+        String email = ((JpaUsuario) auth.getPrincipal()).getEmail();
 
         JpaUsuario usuarioAtualJpa = jpaUsuarioRepository.findUsuarioByEmail(email);
 
@@ -97,7 +97,7 @@ public class UsuarioServiceImpl implements UsuarioUseCases {
         return usuarioAvatar;
     }
 
-    private JpaFile getAvatar(MultipartFile file, JpaUsuario jpaUsuario) {
+    private JpaFile getAvatar(MultipartFile file) {
         FileResponse fileResponse = fileService.storeAvatar(file);
 
         JpaFile usuarioAvatar = new JpaFile();

@@ -50,7 +50,7 @@ public class ProdutoServiceImpl implements ProdutoUseCases {
     @Override
     public PageResponse<Produto> executeListarProdutosUsuario(int pagina, int itens) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = ((Usuario) auth.getPrincipal()).getEmail();
+        String email = ((JpaUsuario) auth.getPrincipal()).getEmail();
 
         Page<JpaProduto> produtosUsuario = jpaProdutoRepository.findAllByUsuarioEmail(email, PageRequest.of(pagina, itens));
         return produtoMapper.toPageResponse(produtosUsuario);

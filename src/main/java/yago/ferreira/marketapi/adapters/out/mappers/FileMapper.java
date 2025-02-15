@@ -30,6 +30,10 @@ public interface FileMapper {
     }
 
     default MultipartFile toMultipartFile(FileInput fileInput) {
+        if (fileInput == null) {
+            return null;
+        }
+
         return new MockMultipartFile(
                 fileInput.getName(),
                 fileInput.getOriginalFilename(),
