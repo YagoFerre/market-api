@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import yago.ferreira.marketapi.adapters.out.repository.JpaUsuarioRepository;
-import yago.ferreira.marketapi.application.service.security.TokenService;
+import yago.ferreira.marketapi.adapters.in.service.TokenService;
 
 import java.io.IOException;
 

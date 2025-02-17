@@ -9,10 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import yago.ferreira.marketapi.adapters.out.entities.JpaUsuario;
-import yago.ferreira.marketapi.domain.model.Usuario;
 import yago.ferreira.marketapi.adapters.in.controller.dto.request.AuthenticationRequest;
 import yago.ferreira.marketapi.adapters.in.controller.dto.response.LoginResponse;
-import yago.ferreira.marketapi.application.service.security.TokenService;
+import yago.ferreira.marketapi.adapters.in.service.TokenService;
 
 @RestController
 @RequestMapping("api/v1/auth")

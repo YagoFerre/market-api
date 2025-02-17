@@ -1,80 +1,65 @@
 package yago.ferreira.marketapi.application.service.produto;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 import yago.ferreira.marketapi.adapters.in.controller.dto.response.FileResponse;
 import yago.ferreira.marketapi.adapters.in.controller.dto.response.PageResponse;
-import yago.ferreira.marketapi.adapters.out.entities.JpaFile;
-import yago.ferreira.marketapi.adapters.out.entities.JpaProduto;
-import yago.ferreira.marketapi.adapters.out.entities.JpaUsuario;
-import yago.ferreira.marketapi.adapters.out.mappers.FileMapper;
-import yago.ferreira.marketapi.adapters.out.mappers.ProdutoMapper;
-import yago.ferreira.marketapi.adapters.out.repository.JpaProdutoRepository;
-import yago.ferreira.marketapi.application.service.file.FileService;
+import yago.ferreira.marketapi.adapters.in.service.FileService;
+import yago.ferreira.marketapi.application.service.file.FileServiceImpl;
 import yago.ferreira.marketapi.application.service.usuario.UsuarioServiceImpl;
 import yago.ferreira.marketapi.domain.exceptions.RecordNotFoundException;
+import yago.ferreira.marketapi.domain.model.File;
 import yago.ferreira.marketapi.domain.model.FileInput;
 import yago.ferreira.marketapi.domain.model.Produto;
 import yago.ferreira.marketapi.domain.model.Usuario;
 import yago.ferreira.marketapi.domain.port.in.usecases.ProdutoUseCases;
+import yago.ferreira.marketapi.domain.port.out.repository.ProdutoRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
 public class ProdutoServiceImpl implements ProdutoUseCases {
 
-    private final JpaProdutoRepository jpaProdutoRepository;
+    private final ProdutoRepository produtoRepository;
     private final UsuarioServiceImpl usuarioServiceImpl;
-    private final FileService fileService;
-    private final ProdutoMapper produtoMapper;
-    private final FileMapper fileMapper;
+    private final FileServiceImpl fileServiceImpl;
 
-    public ProdutoServiceImpl(JpaProdutoRepository jpaProdutoRepository, UsuarioServiceImpl usuarioServiceImpl, FileService fileService, ProdutoMapper produtoMapper, FileMapper fileMapper) {
-        this.jpaProdutoRepository = jpaProdutoRepository;
+    public ProdutoServiceImpl(ProdutoRepository produtoRepository, UsuarioServiceImpl usuarioServiceImpl, FileServiceImpl fileServiceImpl) {
+        this.produtoRepository = produtoRepository;
         this.usuarioServiceImpl = usuarioServiceImpl;
-        this.fileService = fileService;
-        this.produtoMapper = produtoMapper;
-        this.fileMapper = fileMapper;
+        this.fileServiceImpl = fileServiceImpl;
     }
 
     @Override
     public PageResponse<Produto> executeListarProdutos(int pagina, int itens) {
-        return produtoMapper.toPageResponse(jpaProdutoRepository.findAll(PageRequest.of(pagina, itens)));
+        return produtoRepository.findAll(pagina, itens);
     }
 
     @Override
     public PageResponse<Produto> executeListarProdutosUsuario(int pagina, int itens) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = ((JpaUsuario) auth.getPrincipal()).getEmail();
+        String email = ((Usuario) auth.getPrincipal()).getEmail();
 
-        Page<JpaProduto> produtosUsuario = jpaProdutoRepository.findAllByUsuarioEmail(email, PageRequest.of(pagina, itens));
-        return produtoMapper.toPageResponse(produtosUsuario);
+        return produtoRepository.findAllByUsuarioEmail(email, pagina, itens);
     }
 
     @Override
     public Produto executeCriarProduto(Produto produto, List<FileInput> imagens) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Usuario usuarioLogado = usuarioServiceImpl.executeFindUsuarioLogado(((JpaUsuario) auth.getPrincipal()).getEmail());
+        Usuario usuarioLogado = usuarioServiceImpl.executeFindUsuarioLogado(((Usuario) auth.getPrincipal()).getEmail());
 
         produto.setUsuario(usuarioLogado);
 
-        JpaProduto jpaProduto = produtoMapper.toJpaEntity(produto);
-
         if (imagens != null) {
-            salvarImagensDoProduto(jpaProduto, fileMapper.toMultipartFileList(imagens));
+            salvarImagensDoProduto(produto, imagens);
         }
 
-        return produtoMapper.toDomain(jpaProdutoRepository.save(jpaProduto));
+        return produtoRepository.save(produto);
     }
 
     @Override
     public Produto executeAtualizarProduto(Long id, Produto produto, List<FileInput> imagens) {
-        return jpaProdutoRepository.findById(id)
+        return produtoRepository.findById(id)
                 .map(produtoFound -> {
                     produtoFound.setTitulo(produto.getTitulo());
                     produtoFound.setDescricao(produto.getDescricao());
@@ -82,44 +67,42 @@ public class ProdutoServiceImpl implements ProdutoUseCases {
                     produtoFound.setAtivo(produto.getAtivo());
 
                     if (imagens != null) {
-                        atualizarImagensDoProduto(produtoFound, fileMapper.toMultipartFileList(imagens));
+                        atualizarImagensDoProduto(produtoFound, imagens);
                     }
 
                     // Adiciona novas imagens se tiver
-                    JpaProduto produtoAtualizado = jpaProdutoRepository.save(produtoFound);
-                    return produtoMapper.toDomain(produtoAtualizado);
+                    return produtoRepository.save(produtoFound);
                 })
                 .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
     @Override
     public void executeDeletarProduto(Long id) {
-        jpaProdutoRepository.deleteById(id);
+        produtoRepository.deleteById(id);
     }
 
     @Override
     public Produto executeListProdutoById(Long id) {
-        return jpaProdutoRepository.findById(id)
-                .map(produtoMapper::toDomain)
+        return produtoRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
-    private void salvarImagensDoProduto(JpaProduto jpaProduto, List<MultipartFile> imagens) {
-        List<JpaFile> produtoImagens = getProdutoImagens(imagens);
-        jpaProduto.setProdutoImagem(produtoImagens);
+    private void salvarImagensDoProduto(Produto produto, List<FileInput> imagens) {
+        List<File> produtoImagens = getProdutoImagens(imagens);
+        produto.setProdutoImagem(produtoImagens);
     }
 
-    private void atualizarImagensDoProduto(JpaProduto jpaProduto, List<MultipartFile> imagens) {
-        jpaProduto.getProdutoImagem().clear();
-        List<JpaFile> produtoImagens = getProdutoImagens(imagens);
-        jpaProduto.getProdutoImagem().addAll(produtoImagens);
+    private void atualizarImagensDoProduto(Produto produto, List<FileInput> imagens) {
+        produto.getProdutoImagem().clear();
+        List<File> produtoImagens = getProdutoImagens(imagens);
+        produto.getProdutoImagem().addAll(produtoImagens);
     }
 
-    private List<JpaFile> getProdutoImagens(List<MultipartFile> files) {
+    private List<File> getProdutoImagens(List<FileInput> files) {
         return files.stream().map(file -> {
-            FileResponse fileResponse = fileService.storeFile(file);
+            FileResponse fileResponse = fileServiceImpl.storeFile(file);
 
-            JpaFile fileImage = new JpaFile();
+            File fileImage = new File();
             fileImage.setNome(fileResponse.getFileName());
             fileImage.setFilePath(fileResponse.getFilePath());
             return fileImage;

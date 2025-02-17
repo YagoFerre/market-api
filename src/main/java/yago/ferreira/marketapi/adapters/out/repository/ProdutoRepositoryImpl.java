@@ -1,55 +1,44 @@
 package yago.ferreira.marketapi.adapters.out.repository;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Component;
 import yago.ferreira.marketapi.adapters.in.controller.dto.response.PageResponse;
-import yago.ferreira.marketapi.adapters.out.entities.JpaProduto;
-import yago.ferreira.marketapi.adapters.out.mappers.ProdutoMapper;
 import yago.ferreira.marketapi.domain.model.Produto;
 import yago.ferreira.marketapi.domain.port.out.repository.ProdutoRepository;
 
 import java.util.Optional;
 
+@Component
 public class ProdutoRepositoryImpl implements ProdutoRepository {
 
-    private final JpaProdutoRepository jpaProdutoRepository;
-    private final ProdutoMapper produtoMapper;
+    private final ProdutoRepository produtoRepository;
 
-    public ProdutoRepositoryImpl(JpaProdutoRepository jpaProdutoRepository, ProdutoMapper produtoMapper) {
-        this.jpaProdutoRepository = jpaProdutoRepository;
-        this.produtoMapper = produtoMapper;
+    public ProdutoRepositoryImpl(ProdutoRepository produtoRepository) {
+        this.produtoRepository = produtoRepository;
     }
 
     @Override
     public Produto save(Produto domainObj) {
-        JpaProduto jpaEntity = produtoMapper.toJpaEntity(domainObj);
-        return produtoMapper.toDomain(jpaProdutoRepository.save(jpaEntity));
+        return produtoRepository.save(domainObj);
     }
 
     @Override
     public PageResponse<Produto> findAll(int pagina, int itens) {
-        Pageable pageable = PageRequest.of(pagina, itens);
-        Page<JpaProduto> jpaEntityPage = jpaProdutoRepository.findAll(pageable);
-        return produtoMapper.toPageResponse(jpaEntityPage);
+        return produtoRepository.findAll(pagina, itens);
     }
 
     @Override
     public Optional<Produto> findById(Long id) {
-        Optional<JpaProduto> jpaEntity = jpaProdutoRepository.findById(id);
-        return jpaEntity.map(produtoMapper::toDomain);
+        return produtoRepository.findById(id);
     }
 
     @Override
     public void deleteById(Long id) {
-        jpaProdutoRepository.deleteById(id);
+        produtoRepository.deleteById(id);
     }
 
     @Override
     public PageResponse<Produto> findAllByUsuarioEmail(String email, int pagina, int itens) {
-        Pageable pageable = PageRequest.of(pagina, itens);
-        Page<JpaProduto> jpaEntityPage = jpaProdutoRepository.findAllByUsuarioEmail(email, pageable);
-        return produtoMapper.toPageResponse(jpaEntityPage);
+        return produtoRepository.findAllByUsuarioEmail(email, pagina, itens);
     }
 
 }

@@ -1,4 +1,4 @@
-package yago.ferreira.marketapi.application.service.file;
+package yago.ferreira.marketapi.adapters.in.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;

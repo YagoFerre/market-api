@@ -24,6 +24,6 @@ public interface UsuarioMapper {
 
     JpaUsuario toJpa(UsuarioDTO usuarioDTO);
 
-    JpaUsuario registerToUser(RegisterRequestDomain domainObj);
+    Usuario registerToUser(RegisterRequestDomain domainObj);
 
 }

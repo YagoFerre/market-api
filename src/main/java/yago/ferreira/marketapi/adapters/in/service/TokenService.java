@@ -1,4 +1,4 @@
-package yago.ferreira.marketapi.application.service.security;
+package yago.ferreira.marketapi.adapters.in.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

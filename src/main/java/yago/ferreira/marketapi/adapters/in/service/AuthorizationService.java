@@ -1,4 +1,4 @@
-package yago.ferreira.marketapi.application.service.security;
+package yago.ferreira.marketapi.adapters.in.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

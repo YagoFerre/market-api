@@ -2,63 +2,55 @@ package yago.ferreira.marketapi.application.service.usuario;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 import yago.ferreira.marketapi.adapters.in.controller.dto.response.FileResponse;
-import yago.ferreira.marketapi.adapters.out.entities.JpaFile;
-import yago.ferreira.marketapi.adapters.out.mappers.FileMapper;
+import yago.ferreira.marketapi.adapters.in.service.FileService;
 import yago.ferreira.marketapi.adapters.out.entities.JpaUsuario;
 import yago.ferreira.marketapi.adapters.out.mappers.UsuarioMapper;
-import yago.ferreira.marketapi.adapters.out.repository.JpaUsuarioRepository;
-import yago.ferreira.marketapi.application.service.file.FileService;
 import yago.ferreira.marketapi.domain.exceptions.EmailAlreadyExistsException;
+import yago.ferreira.marketapi.domain.model.File;
 import yago.ferreira.marketapi.domain.model.FileInput;
 import yago.ferreira.marketapi.domain.model.RegisterRequestDomain;
 import yago.ferreira.marketapi.domain.model.Usuario;
 import yago.ferreira.marketapi.domain.port.in.usecases.UsuarioUseCases;
+import yago.ferreira.marketapi.domain.port.out.repository.UsuarioRepository;
 
-@Component
 public class UsuarioServiceImpl implements UsuarioUseCases {
 
-    private final JpaUsuarioRepository jpaUsuarioRepository;
+    private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
-    private final FileMapper fileMapper;
     private final FileService fileService;
 
-    public UsuarioServiceImpl(JpaUsuarioRepository jpaUsuarioRepository, UsuarioMapper usuarioMapper, FileMapper fileMapper, FileService fileService) {
-        this.jpaUsuarioRepository = jpaUsuarioRepository;
+    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper, FileService fileService) {
+        this.usuarioRepository = usuarioRepository;
         this.usuarioMapper = usuarioMapper;
-        this.fileMapper = fileMapper;
         this.fileService = fileService;
     }
 
+
     @Override
     public Usuario executeFindUsuarioLogado(String email) {
-        return usuarioMapper.toDomainEntity(jpaUsuarioRepository.findUsuarioByEmail(email));
+        return usuarioRepository.findUsuarioByEmail(email);
     }
 
     @Override
     public Usuario executeCreateUsuario(RegisterRequestDomain domainObj, FileInput fileDomain) {
-        MultipartFile file = fileMapper.toMultipartFile(fileDomain);
-
-        UserDetails usuarioExistente = jpaUsuarioRepository.findByEmail(domainObj.getEmail());
+        Usuario usuarioExistente = usuarioRepository.findByEmail(domainObj.getEmail());
 
         if (usuarioExistente != null) {
             throw new EmailAlreadyExistsException();
         }
 
-        JpaUsuario jpaUsuario = usuarioMapper.registerToUser(domainObj);
+        Usuario usuario = usuarioMapper.registerToUser(domainObj);
         String senhaEncrypted = new BCryptPasswordEncoder().encode(domainObj.getSenha());
 
-        jpaUsuario.setSenha(senhaEncrypted);
+        usuario.setSenha(senhaEncrypted);
 
-        if (file != null) {
-            jpaUsuario.setAvatar(getAvatar(file));
+        if (fileDomain != null) {
+            usuario.setAvatar(getAvatar(fileDomain));
         }
 
-        return usuarioMapper.toDomainEntity(jpaUsuarioRepository.save(jpaUsuario));
+        return usuarioRepository.save(usuario);
     }
 
     @Override
@@ -66,30 +58,30 @@ public class UsuarioServiceImpl implements UsuarioUseCases {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = ((JpaUsuario) auth.getPrincipal()).getEmail();
 
-        JpaUsuario usuarioAtualJpa = jpaUsuarioRepository.findUsuarioByEmail(email);
+        Usuario usuarioAtual = usuarioRepository.findUsuarioByEmail(email);
 
-        usuarioAtualJpa.setNome(usuarioDomain.getNome());
-        usuarioAtualJpa.setEmail(usuarioDomain.getEmail());
+        usuarioAtual.setNome(usuarioDomain.getNome());
+        usuarioAtual.setEmail(usuarioDomain.getEmail());
 
         if (fileDomain != null) {
-            usuarioAtualJpa.setAvatar(getAvatarAtualizado(fileMapper.toMultipartFile(fileDomain), usuarioAtualJpa));
+            usuarioAtual.setAvatar(getAvatarAtualizado(fileDomain, usuarioAtual));
         }
 
-        return usuarioMapper.toDomainEntity(jpaUsuarioRepository.save(usuarioAtualJpa));
+        return usuarioRepository.save(usuarioAtual);
     }
 
-    private JpaFile getAvatarAtualizado(MultipartFile file, JpaUsuario jpaUsuario) {
-        if (file.isEmpty()) {
-            jpaUsuario.setAvatar(new JpaFile());
+    private File getAvatarAtualizado(FileInput file, Usuario usuario) {
+        if (file.getBytes().length == 0) {
+            usuario.setAvatar(new File());
             return null;
         }
 
         FileResponse fileResponse = fileService.storeAvatar(file);
 
-        JpaFile usuarioAvatar = new JpaFile();
+        File usuarioAvatar = new File();
 
-        if (jpaUsuario.getAvatar() != null) {
-            usuarioAvatar = jpaUsuario.getAvatar();
+        if (usuario.getAvatar() != null) {
+            usuarioAvatar = usuario.getAvatar();
         }
 
         usuarioAvatar.setNome(fileResponse.getFileName());
@@ -97,14 +89,14 @@ public class UsuarioServiceImpl implements UsuarioUseCases {
         return usuarioAvatar;
     }
 
-    private JpaFile getAvatar(MultipartFile file) {
-        if (file.isEmpty()) {
+    private File getAvatar(FileInput file) {
+        if (file.getBytes().length == 0) {
             return null;
         }
 
         FileResponse fileResponse = fileService.storeAvatar(file);
 
-        JpaFile usuarioAvatar = new JpaFile();
+        File usuarioAvatar = new File();
         usuarioAvatar.setNome(fileResponse.getFileName());
         usuarioAvatar.setFilePath(fileResponse.getFilePath());
         return usuarioAvatar;

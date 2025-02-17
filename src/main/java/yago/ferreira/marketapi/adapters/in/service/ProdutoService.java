@@ -11,29 +11,31 @@ import yago.ferreira.marketapi.adapters.out.mappers.ProdutoMapper;
 import yago.ferreira.marketapi.application.service.produto.ProdutoServiceImpl;
 import yago.ferreira.marketapi.domain.model.FileInput;
 import yago.ferreira.marketapi.domain.model.Produto;
+import yago.ferreira.marketapi.domain.port.in.usecases.ProdutoUseCases;
 
 import java.util.List;
 
 @Service
 public class ProdutoService {
 
-    private final ProdutoServiceImpl produtoServiceImpl;
+    private final ProdutoUseCases produtoUseCases;
     private final ProdutoMapper produtoMapper;
     private final FileMapper fileMapper;
 
-    public ProdutoService(ProdutoServiceImpl produtoServiceImpl, ProdutoMapper produtoMapper, FileMapper fileMapper) {
-        this.produtoServiceImpl = produtoServiceImpl;
+    public ProdutoService(ProdutoUseCases produtoUseCases, ProdutoMapper produtoMapper, FileMapper fileMapper) {
+        this.produtoUseCases = produtoUseCases;
         this.produtoMapper = produtoMapper;
         this.fileMapper = fileMapper;
     }
 
+
     public Page<ProdutoDTO> listarProdutos(int pagina, int itens) {
-        PageResponse<Produto> produto = produtoServiceImpl.executeListarProdutos(pagina, itens);
+        PageResponse<Produto> produto = produtoUseCases.executeListarProdutos(pagina, itens);
         return produtoMapper.toPageDTO(produto);
     }
 
     public Page<ProdutoDTO> listarProdutosUsuario(int pagina, int itens) {
-        return produtoMapper.toPageDTO(produtoServiceImpl.executeListarProdutosUsuario(pagina, itens));
+        return produtoMapper.toPageDTO(produtoUseCases.executeListarProdutosUsuario(pagina, itens));
     }
 
     @Transactional
@@ -41,7 +43,7 @@ public class ProdutoService {
         Produto produtoDomain = produtoMapper.toDomainEntity(dto);
         List<FileInput> fileInputListDomain = fileMapper.toFileInputDomainList(imagens);
 
-        Produto produto = produtoServiceImpl.executeCriarProduto(produtoDomain, fileInputListDomain);
+        Produto produto = produtoUseCases.executeCriarProduto(produtoDomain, fileInputListDomain);
         return produtoMapper.toDto(produto);
     }
 
@@ -50,16 +52,16 @@ public class ProdutoService {
         Produto produtoDomain = produtoMapper.toDomainEntity(dto);
         List<FileInput> fileInputListDomain = fileMapper.toFileInputDomainList(imagens);
 
-        Produto produto = produtoServiceImpl.executeAtualizarProduto(id, produtoDomain, fileInputListDomain);
+        Produto produto = produtoUseCases.executeAtualizarProduto(id, produtoDomain, fileInputListDomain);
         return produtoMapper.toDto(produto);
     }
 
     public void deletarProduto(Long id) {
-        produtoServiceImpl.executeDeletarProduto(id);
+        produtoUseCases.executeDeletarProduto(id);
     }
 
     public ProdutoDTO listProdutoById(Long id) {
-        Produto produto = produtoServiceImpl.executeListProdutoById(id);
+        Produto produto = produtoUseCases.executeListProdutoById(id);
         return produtoMapper.toDto(produto);
     }
 }

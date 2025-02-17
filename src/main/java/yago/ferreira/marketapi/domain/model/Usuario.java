@@ -1,6 +1,6 @@
 package yago.ferreira.marketapi.domain.model;
 
-public class Usuario implements DomainUserDetails {
+public class Usuario {
     private Long id;
     private String email;
     private String nome;
@@ -58,33 +58,4 @@ public class Usuario implements DomainUserDetails {
         this.avatar = avatar;
     }
 
-    @Override
-    public String getPassword() {
-        return senha;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }
