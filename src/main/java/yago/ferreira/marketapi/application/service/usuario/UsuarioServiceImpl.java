@@ -98,6 +98,10 @@ public class UsuarioServiceImpl implements UsuarioUseCases {
     }
 
     private JpaFile getAvatar(MultipartFile file) {
+        if (file.isEmpty()) {
+            return null;
+        }
+
         FileResponse fileResponse = fileService.storeAvatar(file);
 
         JpaFile usuarioAvatar = new JpaFile();
