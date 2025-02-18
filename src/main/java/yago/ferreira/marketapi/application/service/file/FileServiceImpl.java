@@ -10,4 +10,10 @@ public class FileServiceImpl implements FileUseCases {
     public FileResponse storeFile(FileInput file) {
         return null;
     }
+
+    @Override
+    public FileResponse storeAvatar(FileInput file) {
+        return null;
+    }
+
 }

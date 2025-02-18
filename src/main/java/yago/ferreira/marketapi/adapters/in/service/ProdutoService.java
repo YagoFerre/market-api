@@ -8,7 +8,6 @@ import yago.ferreira.marketapi.adapters.in.controller.dto.ProdutoDTO;
 import yago.ferreira.marketapi.adapters.in.controller.dto.response.PageResponse;
 import yago.ferreira.marketapi.adapters.out.mappers.FileMapper;
 import yago.ferreira.marketapi.adapters.out.mappers.ProdutoMapper;
-import yago.ferreira.marketapi.application.service.produto.ProdutoServiceImpl;
 import yago.ferreira.marketapi.domain.model.FileInput;
 import yago.ferreira.marketapi.domain.model.Produto;
 import yago.ferreira.marketapi.domain.port.in.usecases.ProdutoUseCases;

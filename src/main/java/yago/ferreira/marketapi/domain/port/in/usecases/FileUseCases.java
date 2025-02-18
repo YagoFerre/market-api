@@ -5,4 +5,5 @@ import yago.ferreira.marketapi.domain.model.FileInput;
 
 public interface FileUseCases {
     FileResponse storeFile(FileInput file);
+    FileResponse storeAvatar(FileInput file);
 }

@@ -7,20 +7,20 @@ import yago.ferreira.marketapi.adapters.in.controller.dto.UsuarioDTO;
 import yago.ferreira.marketapi.adapters.in.controller.dto.request.RegisterRequest;
 import yago.ferreira.marketapi.adapters.out.mappers.FileMapper;
 import yago.ferreira.marketapi.adapters.out.mappers.UsuarioMapper;
-import yago.ferreira.marketapi.application.service.usuario.UsuarioServiceImpl;
 import yago.ferreira.marketapi.domain.model.FileInput;
 import yago.ferreira.marketapi.domain.model.RegisterRequestDomain;
 import yago.ferreira.marketapi.domain.model.Usuario;
+import yago.ferreira.marketapi.domain.port.in.usecases.UsuarioUseCases;
 
 @Service
 public class UsuarioService {
 
-    private final UsuarioServiceImpl usuarioServiceImpl;
+    private final UsuarioUseCases usuarioUseCases;
     private final UsuarioMapper usuarioMapper;
     private final FileMapper fileMapper;
 
-    public UsuarioService(UsuarioServiceImpl usuarioServiceImpl, UsuarioMapper usuarioMapper, FileMapper fileMapper) {
-        this.usuarioServiceImpl = usuarioServiceImpl;
+    public UsuarioService(UsuarioUseCases usuarioUseCases, UsuarioMapper usuarioMapper, FileMapper fileMapper) {
+        this.usuarioUseCases = usuarioUseCases;
         this.usuarioMapper = usuarioMapper;
         this.fileMapper = fileMapper;
     }
@@ -29,7 +29,7 @@ public class UsuarioService {
     public UsuarioDTO createUsuario(RegisterRequest request, MultipartFile multipartFile) {
         RegisterRequestDomain registerRequestDomain = usuarioMapper.toRegisterRequestDomain(request);
         FileInput fileInputDomain = fileMapper.toFileInputDomain(multipartFile);
-        Usuario usuarioDomain = usuarioServiceImpl.executeCreateUsuario(registerRequestDomain, fileInputDomain);
+        Usuario usuarioDomain = usuarioUseCases.executeCreateUsuario(registerRequestDomain, fileInputDomain);
         return usuarioMapper.toDto(usuarioDomain);
     }
 
@@ -37,12 +37,7 @@ public class UsuarioService {
     public UsuarioDTO updateUsuario(UsuarioDTO dto, MultipartFile multipartFile) {
         Usuario usuarioDomain = usuarioMapper.toUsuarioDomain(dto);
         FileInput fileInputDomain = fileMapper.toFileInputDomain(multipartFile);
-        return usuarioMapper.toDto(usuarioServiceImpl.executeUpdateUsuario(usuarioDomain, fileInputDomain));
-    }
-
-    public UsuarioDTO findUsuarioLogado(String email) {
-        Usuario domainObj = usuarioServiceImpl.executeFindUsuarioLogado(email);
-        return usuarioMapper.toDto(domainObj);
+        return usuarioMapper.toDto(usuarioUseCases.executeUpdateUsuario(usuarioDomain, fileInputDomain));
     }
 
 }

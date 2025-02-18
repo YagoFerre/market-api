@@ -2,11 +2,10 @@ package yago.ferreira.marketapi.application.service.usuario;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import yago.ferreira.marketapi.adapters.in.controller.dto.response.FileResponse;
-import yago.ferreira.marketapi.adapters.in.service.FileService;
+import yago.ferreira.marketapi.adapters.out.encoder.PasswordEncoderImpl;
 import yago.ferreira.marketapi.adapters.out.entities.JpaUsuario;
-import yago.ferreira.marketapi.adapters.out.mappers.UsuarioMapper;
+import yago.ferreira.marketapi.application.service.file.FileServiceImpl;
 import yago.ferreira.marketapi.domain.exceptions.EmailAlreadyExistsException;
 import yago.ferreira.marketapi.domain.model.File;
 import yago.ferreira.marketapi.domain.model.FileInput;
@@ -18,19 +17,18 @@ import yago.ferreira.marketapi.domain.port.out.repository.UsuarioRepository;
 public class UsuarioServiceImpl implements UsuarioUseCases {
 
     private final UsuarioRepository usuarioRepository;
-    private final UsuarioMapper usuarioMapper;
-    private final FileService fileService;
+    private final FileServiceImpl fileServiceImpl;
+    private final PasswordEncoderImpl passwordEncoderImpl;
 
-    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper, FileService fileService) {
+    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, FileServiceImpl fileServiceImpl, PasswordEncoderImpl passwordEncoderImpl) {
         this.usuarioRepository = usuarioRepository;
-        this.usuarioMapper = usuarioMapper;
-        this.fileService = fileService;
+        this.fileServiceImpl = fileServiceImpl;
+        this.passwordEncoderImpl = passwordEncoderImpl;
     }
-
 
     @Override
     public Usuario executeFindUsuarioLogado(String email) {
-        return usuarioRepository.findUsuarioByEmail(email);
+        return usuarioRepository.findByEmail(email);
     }
 
     @Override
@@ -41,16 +39,13 @@ public class UsuarioServiceImpl implements UsuarioUseCases {
             throw new EmailAlreadyExistsException();
         }
 
-        Usuario usuario = usuarioMapper.registerToUser(domainObj);
-        String senhaEncrypted = new BCryptPasswordEncoder().encode(domainObj.getSenha());
-
-        usuario.setSenha(senhaEncrypted);
+        domainObj.setSenha(passwordEncoderImpl.encode(domainObj.getSenha()));
 
         if (fileDomain != null) {
-            usuario.setAvatar(getAvatar(fileDomain));
+            domainObj.setAvatar(getAvatar(fileDomain));
         }
 
-        return usuarioRepository.save(usuario);
+        return usuarioRepository.save(Usuario.criar(domainObj));
     }
 
     @Override
@@ -58,7 +53,7 @@ public class UsuarioServiceImpl implements UsuarioUseCases {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = ((JpaUsuario) auth.getPrincipal()).getEmail();
 
-        Usuario usuarioAtual = usuarioRepository.findUsuarioByEmail(email);
+        Usuario usuarioAtual = usuarioRepository.findByEmail(email);
 
         usuarioAtual.setNome(usuarioDomain.getNome());
         usuarioAtual.setEmail(usuarioDomain.getEmail());
@@ -76,7 +71,7 @@ public class UsuarioServiceImpl implements UsuarioUseCases {
             return null;
         }
 
-        FileResponse fileResponse = fileService.storeAvatar(file);
+        FileResponse fileResponse = fileServiceImpl.storeAvatar(file);
 
         File usuarioAvatar = new File();
 
@@ -94,7 +89,7 @@ public class UsuarioServiceImpl implements UsuarioUseCases {
             return null;
         }
 
-        FileResponse fileResponse = fileService.storeAvatar(file);
+        FileResponse fileResponse = fileServiceImpl.storeAvatar(file);
 
         File usuarioAvatar = new File();
         usuarioAvatar.setNome(fileResponse.getFileName());

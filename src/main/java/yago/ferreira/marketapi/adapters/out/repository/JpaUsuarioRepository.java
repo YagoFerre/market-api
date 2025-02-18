@@ -7,5 +7,4 @@ import yago.ferreira.marketapi.adapters.out.entities.JpaUsuario;
 @Repository
 public interface JpaUsuarioRepository extends JpaRepository<JpaUsuario, Long> {
     JpaUsuario findByEmail(String email);
-    JpaUsuario findUsuarioByEmail(String email);
 }

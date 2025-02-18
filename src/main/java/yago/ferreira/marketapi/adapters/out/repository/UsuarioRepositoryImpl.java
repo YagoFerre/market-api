@@ -27,10 +27,4 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
         JpaUsuario jpaEntity = jpaUsuarioRepository.findByEmail(email);
         return usuarioMapper.toDomainEntity(jpaEntity);
     }
-
-    @Override
-    public Usuario findUsuarioByEmail(String email) {
-        JpaUsuario jpaEntity = jpaUsuarioRepository.findUsuarioByEmail(email);
-        return usuarioMapper.toDomainEntity(jpaEntity);
-    }
 }

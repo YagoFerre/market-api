@@ -18,6 +18,15 @@ public class Usuario {
         this.avatar = avatar;
     }
 
+    public static Usuario criar(RegisterRequestDomain registerRequestDomain) {
+        Usuario usuario = new Usuario();
+        usuario.setNome(registerRequestDomain.getNome());
+        usuario.setEmail(registerRequestDomain.getEmail());
+        usuario.setSenha(registerRequestDomain.getSenha());
+        usuario.setAvatar(registerRequestDomain.getAvatar());
+        return usuario;
+    }
+
     public Long getId() {
         return id;
     }

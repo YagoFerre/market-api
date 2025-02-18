@@ -4,14 +4,16 @@ public class RegisterRequestDomain {
     private String email;
     private String nome;
     private String senha;
+    private File avatar;
 
     public RegisterRequestDomain() {
     }
 
-    public RegisterRequestDomain(String email, String nome, String senha) {
+    public RegisterRequestDomain(String email, String nome, String senha, File avatar) {
         this.email = email;
         this.nome = nome;
         this.senha = senha;
+        this.avatar = avatar;
     }
 
     public String getEmail() {
@@ -36,5 +38,13 @@ public class RegisterRequestDomain {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public File getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(File avatar) {
+        this.avatar = avatar;
     }
 }

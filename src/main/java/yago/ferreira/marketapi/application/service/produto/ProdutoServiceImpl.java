@@ -4,7 +4,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import yago.ferreira.marketapi.adapters.in.controller.dto.response.FileResponse;
 import yago.ferreira.marketapi.adapters.in.controller.dto.response.PageResponse;
-import yago.ferreira.marketapi.adapters.in.service.FileService;
 import yago.ferreira.marketapi.application.service.file.FileServiceImpl;
 import yago.ferreira.marketapi.application.service.usuario.UsuarioServiceImpl;
 import yago.ferreira.marketapi.domain.exceptions.RecordNotFoundException;
