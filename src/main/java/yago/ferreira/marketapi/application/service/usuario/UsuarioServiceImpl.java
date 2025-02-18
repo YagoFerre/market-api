@@ -2,6 +2,7 @@ package yago.ferreira.marketapi.application.service.usuario;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import yago.ferreira.marketapi.adapters.in.controller.dto.response.FileResponse;
 import yago.ferreira.marketapi.adapters.out.encoder.PasswordEncoderImpl;
 import yago.ferreira.marketapi.adapters.out.entities.JpaUsuario;
@@ -14,6 +15,7 @@ import yago.ferreira.marketapi.domain.model.Usuario;
 import yago.ferreira.marketapi.domain.port.in.usecases.UsuarioUseCases;
 import yago.ferreira.marketapi.domain.port.out.repository.UsuarioRepository;
 
+@Component
 public class UsuarioServiceImpl implements UsuarioUseCases {
 
     private final UsuarioRepository usuarioRepository;

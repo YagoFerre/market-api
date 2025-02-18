@@ -2,6 +2,7 @@ package yago.ferreira.marketapi.application.service.produto;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import yago.ferreira.marketapi.adapters.in.controller.dto.response.FileResponse;
 import yago.ferreira.marketapi.adapters.in.controller.dto.response.PageResponse;
 import yago.ferreira.marketapi.application.service.file.FileServiceImpl;
@@ -17,6 +18,7 @@ import yago.ferreira.marketapi.domain.port.out.repository.ProdutoRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class ProdutoServiceImpl implements ProdutoUseCases {
 
     private final ProdutoRepository produtoRepository;
