@@ -1,4 +1,4 @@
-```markdown
+
 # Market API
 
 Este projeto é uma aplicação Java Spring Boot que fornece uma API para gerenciar um mercado virtual, incluindo recursos para autenticação de usuários, gerenciamento de produtos e armazenamento de arquivos.
