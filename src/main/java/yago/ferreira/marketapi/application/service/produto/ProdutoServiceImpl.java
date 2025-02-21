@@ -101,7 +101,7 @@ public class ProdutoServiceImpl implements ProdutoUseCases {
 
     private List<File> getProdutoImagens(List<FileInput> files) {
         return files.stream().map(file -> {
-            FileResponse fileResponse = fileServiceImpl.storeFile(file);
+            FileResponse fileResponse = fileServiceImpl.executeStoreFile(file);
 
             File fileImage = new File();
             fileImage.setNome(fileResponse.getFileName());

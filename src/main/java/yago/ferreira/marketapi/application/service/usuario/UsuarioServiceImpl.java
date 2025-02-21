@@ -73,7 +73,7 @@ public class UsuarioServiceImpl implements UsuarioUseCases {
             return null;
         }
 
-        FileResponse fileResponse = fileServiceImpl.storeAvatar(file);
+        FileResponse fileResponse = fileServiceImpl.executeStoreAvatar(file);
 
         File usuarioAvatar = new File();
 
@@ -91,7 +91,7 @@ public class UsuarioServiceImpl implements UsuarioUseCases {
             return null;
         }
 
-        FileResponse fileResponse = fileServiceImpl.storeAvatar(file);
+        FileResponse fileResponse = fileServiceImpl.executeStoreAvatar(file);
 
         File usuarioAvatar = new File();
         usuarioAvatar.setNome(fileResponse.getFileName());

@@ -1,10 +1,10 @@
 package yago.ferreira.marketapi.adapters.in.service;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import yago.ferreira.marketapi.infra.configuration.storage.FileStorageProperties;
 import yago.ferreira.marketapi.adapters.in.controller.dto.response.FileResponse;
+import yago.ferreira.marketapi.infra.configuration.storage.FileStorageProperties;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 
-@Service
+@Component
 public class FileService {
 
     private final Path storageLocation;

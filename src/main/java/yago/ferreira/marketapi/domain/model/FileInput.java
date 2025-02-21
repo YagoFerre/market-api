@@ -1,18 +1,22 @@
 package yago.ferreira.marketapi.domain.model;
 
+import java.io.FileInputStream;
+
 public class FileInput {
     private String name;
     private String originalFilename;
     private String contentType;
+    private FileInputStream fileInputStream;
     private byte[] bytes;
 
     public FileInput() {
     }
 
-    public FileInput(String name, String originalFilename, String contentType, byte[] bytes) {
+    public FileInput(String name, String originalFilename, String contentType, FileInputStream fileInputStream, byte[] bytes) {
         this.name = name;
         this.originalFilename = originalFilename;
         this.contentType = contentType;
+        this.fileInputStream = fileInputStream;
         this.bytes = bytes;
     }
 
@@ -38,6 +42,14 @@ public class FileInput {
 
     public void setContentType(String contentType) {
         this.contentType = contentType;
+    }
+
+    public FileInputStream getFileInputStream() {
+        return fileInputStream;
+    }
+
+    public void setFileInputStream(FileInputStream fileInputStream) {
+        this.fileInputStream = fileInputStream;
     }
 
     public byte[] getBytes() {
