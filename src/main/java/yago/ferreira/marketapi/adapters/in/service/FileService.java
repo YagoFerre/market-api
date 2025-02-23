@@ -6,6 +6,8 @@ import yago.ferreira.marketapi.adapters.in.controller.dto.response.FileResponse;
 import yago.ferreira.marketapi.adapters.out.mappers.FileMapper;
 import yago.ferreira.marketapi.domain.port.in.usecases.FileUseCases;
 
+import java.io.IOException;
+
 @Component
 public class FileService {
 
@@ -17,11 +19,11 @@ public class FileService {
         this.fileMapper = fileMapper;
     }
 
-    public FileResponse storeFile(MultipartFile file) {
+    public FileResponse storeFile(MultipartFile file) throws IOException {
         return fileUseCases.executeStoreFile(fileMapper.toFileInputDomain(file));
     }
 
-    public FileResponse storeAvatar(MultipartFile file) {
+    public FileResponse storeAvatar(MultipartFile file) throws IOException {
         return fileUseCases.executeStoreAvatar(fileMapper.toFileInputDomain(file));
     }
 

@@ -12,6 +12,8 @@ import yago.ferreira.marketapi.domain.model.RegisterRequestDomain;
 import yago.ferreira.marketapi.domain.model.Usuario;
 import yago.ferreira.marketapi.domain.port.in.usecases.UsuarioUseCases;
 
+import java.io.IOException;
+
 @Service
 public class UsuarioService {
 
@@ -26,7 +28,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public UsuarioDTO createUsuario(RegisterRequest request, MultipartFile multipartFile) {
+    public UsuarioDTO createUsuario(RegisterRequest request, MultipartFile multipartFile) throws IOException {
         RegisterRequestDomain registerRequestDomain = usuarioMapper.toRegisterRequestDomain(request);
         FileInput fileInputDomain = fileMapper.toFileInputDomain(multipartFile);
         Usuario usuarioDomain = usuarioUseCases.executeCreateUsuario(registerRequestDomain, fileInputDomain);
@@ -34,7 +36,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public UsuarioDTO updateUsuario(UsuarioDTO dto, MultipartFile multipartFile) {
+    public UsuarioDTO updateUsuario(UsuarioDTO dto, MultipartFile multipartFile) throws IOException {
         Usuario usuarioDomain = usuarioMapper.toUsuarioDomain(dto);
         FileInput fileInputDomain = fileMapper.toFileInputDomain(multipartFile);
         return usuarioMapper.toDto(usuarioUseCases.executeUpdateUsuario(usuarioDomain, fileInputDomain));

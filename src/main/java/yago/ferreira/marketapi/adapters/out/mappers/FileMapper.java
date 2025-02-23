@@ -13,13 +13,14 @@ import java.util.stream.Collectors;
 public interface FileMapper {
     List<FileInput> toFileInputDomainList(List<MultipartFile> multipartFileList);
 
-    default FileInput toFileInputDomain(MultipartFile multipartFile) {
+    default FileInput toFileInputDomain(MultipartFile multipartFile) throws IOException {
         if (multipartFile == null) {
             return null;
         }
         FileInput fileInput = new FileInput();
         fileInput.setName(multipartFile.getName());
         fileInput.setOriginalFilename(multipartFile.getOriginalFilename());
+        fileInput.setFileInputStream(multipartFile.getInputStream());
         fileInput.setContentType(multipartFile.getContentType());
         try {
             fileInput.setBytes(multipartFile.getBytes());

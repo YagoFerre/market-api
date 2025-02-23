@@ -8,6 +8,8 @@ import yago.ferreira.marketapi.adapters.in.controller.dto.UsuarioDTO;
 import yago.ferreira.marketapi.adapters.in.controller.dto.request.RegisterRequest;
 import yago.ferreira.marketapi.adapters.in.service.UsuarioService;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("api/v1/usuario")
 public class UsuarioController {
@@ -22,7 +24,7 @@ public class UsuarioController {
     public ResponseEntity<UsuarioDTO> createUser(
             @RequestPart("usuario") @Valid RegisterRequest registerRequest,
             @RequestPart(value = "avatar", required = false) MultipartFile avatar
-    ) {
+    ) throws IOException {
         return ResponseEntity.ok(usuarioService.createUsuario(registerRequest, avatar));
     }
 
@@ -30,7 +32,7 @@ public class UsuarioController {
     public ResponseEntity<UsuarioDTO> updateUser(
             @RequestPart("usuario") @Valid UsuarioDTO usuarioDTO,
             @RequestPart(value = "avatar", required = false) MultipartFile avatar
-    ) {
+    ) throws IOException {
         return ResponseEntity.ok(usuarioService.updateUsuario(usuarioDTO, avatar));
     }
 }
